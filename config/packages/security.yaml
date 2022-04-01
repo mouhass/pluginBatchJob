@@ -1,0 +1,28 @@
+security:
+  encoders:
+    App\Entity\User:
+      algorithm: bcrypt
+      cost: 12
+  providers:
+    from_database:
+      entity:
+        class: App\Entity\Admin
+        property: name
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: true
+      logout:
+        path: /logout
+        target: /
+
+      #http_basic: true
+      form_login:
+        check_path: login
+
+
+  access_control:
+    - {path: ^/admin, roles: ROLE_ADMIN}
