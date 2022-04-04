@@ -11,21 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
 class JobCron extends Job
 {
     /**
-     * @ORM\ManyToOne(targetEntity=JobComposite::class, inversedBy="listSousJobs")
+     * @ORM\Column(type="string")
      */
     private $scriptExec;
-    /**
-     * @return mixed
-     */
+
     public function getScriptExec()
     {
         return $this->scriptExec;
     }
 
-    /**
-     * @param mixed $scriptExec
-     * @return JobCron
-     */
+
     public function setScriptExec($scriptExec)
     {
         $this->scriptExec = $scriptExec;

@@ -1,6 +1,9 @@
 Home:
     path: /admin
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\JobCronController::showAll
 logout:
   path: /logout
 
+email:
+  path: /email
+  controller: App\Controller\MailerController::sendEmail

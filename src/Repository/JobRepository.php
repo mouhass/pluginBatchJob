@@ -62,15 +62,15 @@ class JobRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
     public function findOneBySomeField($value): ?Job
     {
         return $this->createQueryBuilder('j')
-            ->andWhere('j.exampleField = :val')
+            ->andWhere('j.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

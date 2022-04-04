@@ -1,14 +1,15 @@
 security:
-  encoders:
-    App\Entity\User:
-      algorithm: bcrypt
-      cost: 12
-  providers:
-    from_database:
-      entity:
-        class: App\Entity\Admin
-        property: name
 
+  encoders:
+    Symfony\Component\Security\Core\User\User: plaintext
+
+  providers:
+    in_memory:
+      memory:
+        users:
+          demo:
+            password: demo
+            roles: ROLE_ADMIN
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/

@@ -1,0 +1,14 @@
+monolog:
+  handlers:
+    # this "file_log" key could be anything
+    sayhello:
+      type: stream
+
+      path: /var/log/sayhello.log
+
+      level: debug
+
+    syslog_handler:
+      type: syslog
+      # log error-level messages and higher
+      level: error
