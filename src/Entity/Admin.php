@@ -18,10 +18,55 @@ class Admin
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="createdBy")
+     * @ORM\OneToMany(targetEntity=JobCron::class, mappedBy="createdBy")
+     */
+    private $ownerCron;
+
+    /**
+     * @return mixed
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param mixed $owner
+     * @return Admin
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobComposite::class, mappedBy="createdBy")
+     */
+    private $ownerComposite;
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerComposite()
+    {
+        return $this->ownerComposite;
+    }
+
+    /**
+     * @param mixed $owner
+     * @return Admin
+     */
+    public function setOwnerComposite($ownerComposite)
+    {
+        $this->ownerComposite = $ownerComposite;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
-
     /**
      * @ORM\Column(type="string", length=255)
      */

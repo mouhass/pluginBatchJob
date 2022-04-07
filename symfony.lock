@@ -176,9 +176,6 @@
             "./.env"
         ]
     },
-    "symfony/form": {
-        "version": "v4.4.40"
-    },
     "symfony/framework-bundle": {
         "version": "4.4",
         "recipe": {
@@ -221,9 +218,6 @@
     "symfony/inflector": {
         "version": "v4.4.37"
     },
-    "symfony/intl": {
-        "version": "v4.4.38"
-    },
     "symfony/mailer": {
         "version": "4.4",
         "recipe": {
@@ -244,6 +238,18 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/messenger": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "25e3c964d3aee480b3acc3114ffb7940c89edfed"
+        },
+        "files": [
+            "./config/packages/messenger.yaml"
+        ]
     },
     "symfony/mime": {
         "version": "v4.4.37"
@@ -266,12 +272,6 @@
             "./config/packages/test/monolog.yaml"
         ]
     },
-    "symfony/options-resolver": {
-        "version": "v4.4.37"
-    },
-    "symfony/polyfill-intl-icu": {
-        "version": "v1.25.0"
-    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.25.0"
     },
@@ -292,6 +292,9 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.25.0"
+    },
+    "symfony/process": {
+        "version": "v4.4.40"
     },
     "symfony/property-access": {
         "version": "v4.4.38"

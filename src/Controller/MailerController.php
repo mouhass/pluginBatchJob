@@ -15,9 +15,9 @@ class MailerController extends AbstractController
         $email = (new Email())
             ->from('hello@example.com')
             ->to('hassine.mounir1234@gmail.com')
-            ->subject('Time for Symfony Mailer!')
+            ->subject("Erreur dans l'exécution d'un job")
             ->text($sthing)
-            ->html('<p>erreur</p>');
+            ->html($sthing);
 
         $mailer->send($email);
         return new Response("email was sent");

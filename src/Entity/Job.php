@@ -6,58 +6,15 @@ use App\Repository\JobRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-/**
- * @ORM\Entity(repositoryClass=JobRepository::class)
- */
-class Job
+abstract class Job
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $expression;
-
-    /**
-     * @ORM\Column(type="string",length=255)
-     */
     private $state;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $actif;
-
-    /**
-     * @ORM\Column(type="array")
-     */
     private $listDestination = [];
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
     private $nextDateExec;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="name")
-     */
-    private $createdBy;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="createdAt")
-     */
-    private $historique = [];
-
     public function getId(): ?int
     {
         return $this->id;
@@ -135,27 +92,5 @@ class Job
         return $this;
     }
 
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
 
-    public function setCreatedBy(string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getHistorique(): ?array
-    {
-        return $this->historique;
-    }
-
-    public function setHistorique(?array $historique): self
-    {
-        $this->historique = $historique;
-
-        return $this;
-    }
 }

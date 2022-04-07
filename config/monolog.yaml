@@ -4,7 +4,7 @@ monolog:
     sayhello:
       type: stream
 
-      path: /var/log/sayhello.log
+      path: "%kernel.logs_dir%/%kernel.environment%.log"
 
       level: debug
 

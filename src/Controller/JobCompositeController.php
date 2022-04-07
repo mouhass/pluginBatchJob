@@ -1,26 +1,19 @@
 <?php
-
-
 namespace App\Controller;
-
-
-
 use App\Entity\JobComposite;
+use App\Form\Type\JobCompositeType;
 use App\Repository\JobCompositeRepository;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class JobCompositeController extends AbstractController
 {
-
     private $manager;
     public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
-
     public function createJobComposite(Request $request, EntityManagerInterface $entityManager){
         $jobCron = new JobComposite();
         $form = $this->createForm(JobCompositeType::class, $jobCron);
@@ -38,15 +31,11 @@ class JobCompositeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-
     public function readJobComposite( JobCompositeRepository $repository,int $id){
         $job = $repository->findOneBySomeField($id);
 
-        return $this->render('tousJobs.html.twig',['job'=>$job]);
+        return $this->render('tous.html.twig',['job'=>$job]);
     }
-
-
     public function updateJobComposite(Request $request,int $id, JobCompositeRepository $repository)
     {
         $job = $repository->findOneBySomeField($id);
@@ -61,9 +50,6 @@ class JobCompositeController extends AbstractController
             return $this->redirectToRoute('Home');
         }
     }
-
-
-
     public function delete( int $id, JobCompositeRepository $repository){
         $property = $repository->findOneBySomeField($id);
         $em =$this->manager;

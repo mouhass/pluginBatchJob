@@ -23,9 +23,38 @@ class Historique
     private $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Job::class, inversedBy="historique")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=JobCron::class,inversedBy="historique")
+     */
+    private $historiqueJobCron;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=JobCron::class, inversedBy="historique")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $jobCron;
+
+    /**
+     * @return mixed
+     */
+    public function getHistoriqueJobCron()
+    {
+        return $this->historiqueJobCron;
+    }
+
+    /**
+     * @param mixed $historiqueJobCron
+     * @return Historique
+     */
+    public function setHistoriqueJobCron($historiqueJobCron)
+    {
+        $this->historiqueJobCron = $historiqueJobCron;
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +81,18 @@ class Historique
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getJobCron(): ?JobCron
+    {
+        return $this->jobCron;
+    }
+
+    public function setJobCron(?JobCron $jobCron): self
+    {
+        $this->jobCron = $jobCron;
 
         return $this;
     }
