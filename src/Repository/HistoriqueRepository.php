@@ -48,11 +48,11 @@ class HistoriqueRepository extends ServiceEntityRepository
     // /**
     //  * @return Historique[] Returns an array of Historique objects
     //  */
-    /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+            ->andWhere('h.jobCronHist = :val')
             ->setParameter('val', $value)
             ->orderBy('h.id', 'ASC')
             ->setMaxResults(10)
@@ -60,17 +60,18 @@ class HistoriqueRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
+
+
     public function findOneBySomeField($value): ?Historique
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+            ->andWhere('h.jobCronHist = :val ')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
+            ->getMaxResult()
         ;
     }
-    */
+
 }

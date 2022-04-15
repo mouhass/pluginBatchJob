@@ -4,21 +4,56 @@ namespace App\Entity;
 
 use App\Repository\JobRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\Entity;
 
-
-abstract class Job
+/**
+ * @Entity
+ * @InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorMap({"job" = "Job", "jobCron" = "JobCron","jobComposite" = "JobComposite"})
+ * @ORM\Entity(repositoryClass=JobRepository::class)
+ */
+class Job
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
     private $id;
-    private $name;
-    private $expression;
-    private $state;
-    private $actif;
-    private $listDestination = [];
-    private $nextDateExec;
-    public function getId(): ?int
+
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $state;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $actif;
+    /**
+     * @ORM\OneToMany(targetEntity=Admin::class)
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $listDestination = [];
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $nextDateExec;
+
 
     public function getName(): ?string
     {
@@ -32,24 +67,13 @@ abstract class Job
         return $this;
     }
 
-    public function getExpression(): ?string
-    {
-        return $this->expression;
-    }
 
-    public function setExpression(string $expression): self
-    {
-        $this->expression = $expression;
-
-        return $this;
-    }
-
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    public function setState($state): self
+    public function setState(string $state): self
     {
         $this->state = $state;
 
@@ -91,6 +115,4 @@ abstract class Job
 
         return $this;
     }
-
-
 }

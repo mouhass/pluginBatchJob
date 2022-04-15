@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdminRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,55 +20,10 @@ class Admin
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=JobCron::class, mappedBy="createdBy")
-     */
-    private $ownerCron;
-
-    /**
-     * @return mixed
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @param mixed $owner
-     * @return Admin
-     */
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-        return $this;
-    }
-
-    /**
-     * @ORM\OneToMany(targetEntity=JobComposite::class, mappedBy="createdBy")
-     */
-    private $ownerComposite;
-
-    /**
-     * @return mixed
-     */
-    public function getOwnerComposite()
-    {
-        return $this->ownerComposite;
-    }
-
-    /**
-     * @param mixed $owner
-     * @return Admin
-     */
-    public function setOwnerComposite($ownerComposite)
-    {
-        $this->ownerComposite = $ownerComposite;
-        return $this;
-    }
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -76,6 +33,28 @@ class Admin
      * @ORM\Column(type="string", length=255)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobCron::class, mappedBy="createdBy", orphanRemoval=true, cascade={"persist"})
+     */
+    private $jobCrons;
+
+    /**
+     * @ORM\OneToMany(targetEntity=JobComposite::class, mappedBy="createdBy", orphanRemoval=true, cascade={"persist"})
+     */
+    private $jobComposites;
+
+
+
+    public function __construct()
+    {
+        $this->jobCrons = new ArrayCollection();
+        $this->jobComposites = new ArrayCollection();
+    }
+public function __toString()
+{
+    return $this->getName();
+}
 
     public function getId(): ?int
     {
@@ -117,4 +96,66 @@ class Admin
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, JobCron>
+     */
+    public function getJobCrons(): Collection
+    {
+        return $this->jobCrons;
+    }
+
+    public function addJobCron(JobCron $jobCron): self
+    {
+        if (!$this->jobCrons->contains($jobCron)) {
+            $this->jobCrons[] = $jobCron;
+            $jobCron->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobCron(JobCron $jobCron): self
+    {
+        if ($this->jobCrons->removeElement($jobCron)) {
+            // set the owning side to null (unless already changed)
+            if ($jobCron->getCreatedBy() === $this) {
+                $jobCron->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobComposite>
+     */
+    public function getJobComposites(): Collection
+    {
+        return $this->jobComposites;
+    }
+
+    public function addJobComposite(JobComposite $jobComposite): self
+    {
+        if (!$this->jobComposites->contains($jobComposite)) {
+            $this->jobComposites[] = $jobComposite;
+            $jobComposite->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobComposite(JobComposite $jobComposite): self
+    {
+        if ($this->jobComposites->removeElement($jobComposite)) {
+            // set the owning side to null (unless already changed)
+            if ($jobComposite->getCreatedBy() === $this) {
+                $jobComposite->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

@@ -1,11 +1,15 @@
 <?php
 
-
 namespace App\Repository;
-use App\Entity\Job;
+
+
+use App\Entity\Admin;
 use App\Entity\JobCron;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,19 +20,38 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class JobCronRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, JobCron::class);
     }
 
-    public function allCommands(){
-        $entityManager = $this->getEntityManager();
+    public function add(JobCron $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
 
-        $query = $entityManager->createQuery(
-            'SELECT j
-            FROM App\Entity\JobCron j')
-        ->getResult();
-        return $query;
+    public function findElementById( string $id){
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(JobCron $jobCron, bool $flush = true): void
+    {
+        $this->_em->remove($jobCron);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
 

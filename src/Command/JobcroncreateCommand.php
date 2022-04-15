@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Entity\Admin;
-use App\Entity\Enum\states;
 use App\Entity\JobCron;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,12 +32,12 @@ class JobcroncreateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
        $job = new JobCron();
-       $job->setName("testJob")
+       $job->setName("secondJob")
            ->setActif(1)
            ->setCreatedBy($this->manager->getRepository(Admin::class)->find(1))
            ->setExpression("* * * * *")
            ->setNextDateExec(new \DateTime())
-           ->setState(states::nouveau)
+           ->setState("NOUVEAU")
            ->setScriptExec("app:sayhello")
        ;
        $this->manager->persist($job);

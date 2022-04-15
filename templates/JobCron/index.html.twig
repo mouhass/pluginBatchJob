@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}jobcron index{% endblock %}
+
+{% block body %}
+    <h1>jobcron index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+            <th>Expression</th>
+            <th>Created by</th>
+            <th>Command</th>
+            <th>Actions</th>
+            <th>Download log</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for j in jobCron %}
+            <tr>
+
+                <td>{{ j.name }}</td>
+                <td>{{ j.expression }}</td>
+                <td>{{ j.createdBy }}</td>
+                <td>{{ j.scriptExec }}</td>
+                <td>
+                    <a href="{{ path('app_JobCron_execute',{'id': j.id}) }}" class="btn btn-success">Execute immediately</a>
+                    <a href="{{ path('app_JobCron_show', {'id': j.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('app_JobCron_edit', {'id': j.id}) }}" class="btn btn-secondary">edit</a>
+                    <a href="{{ path('app_JobCron_delete', {'id': j.id}) }}" class="btn btn-danger">Delete</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_JobCron_downloadFiles', {'id':j.id}) }}" class="btn btn-warning">Download</a>
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

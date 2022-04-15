@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New JobCron{% endblock %}
+
+{% block body %}
+    <h1>Create new JobCron</h1>
+
+    {{ include('JobCron/_form.html.twig') }}
+
+    <a href="{{ path('app_jobCron_index') }}">back to list</a>
+{% endblock %}

@@ -1,146 +1,192 @@
 <?php
 
-
 namespace App\Entity;
-use App\Repository\JobCronRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
-
-
+use App\Repository\JobCronRepository;
 /**
  * @ORM\Entity(repositoryClass=JobCronRepository::class)
  */
 class JobCron extends Job
 {
+
+
     /**
      * @ORM\Column(type="string")
      */
-    private $scriptExec;
+     private $scriptExec;
+
+     /**
+      * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="jobCrons")
+      * @ORM\JoinColumn(nullable=false)
+      */
+     private $createdBy;
+
+     /**
+      * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="jobCronHist")
+      */
+     private $historiques;
 
     /**
-     * @ORM\ManyToMany(targetEntity=JobComposite::class)
+     * @ORM\Column(type="string")
      */
-    private $jobsComposites;
-
-
+    private $expression;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="ownerCron")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JobComposite" , inversedBy="historiqueSousJob")
      */
-    public $createdBy;
+    private $relationHistJobComp;
 
     /**
-     * @return mixed
+     * @ORM\ManyToMany(targetEntity=JobComposite::class, mappedBy="listSousJobs")
      */
-    public function getJobCompositeHistorique()
-    {
-        return $this->jobCompositeHistorique;
-    }
-
-    /**
-     * @param mixed $jobCompositeHistorique
-     * @return JobCron
-     */
-    public function setJobCompositeHistorique($jobCompositeHistorique)
-    {
-        $this->jobCompositeHistorique = $jobCompositeHistorique;
-        return $this;
-    }
-
-    /**
-     * @ORM\OneToMany(targetEntity=JobComposite::class, mappedBy="historiqueSousJobs")
-     */
-    private $jobCompositeHistorique;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="jobCron", orphanRemoval=true)
-     */
-    private $historique;
-
-    public function __construct()
-    {
-        $this->historique = new ArrayCollection();
-    }
-
-
-
-
-
+    private $jobComposites;
 
     /**
      * @return mixed
      */
-    public function getJobsComposites()
+    public function getExpression()
     {
-        return $this->jobsComposites;
+        return $this->expression;
     }
 
     /**
-     * @param mixed $jobsComposites
+     * @param mixed $expression
      * @return JobCron
      */
-    public function setJobsComposites($jobsComposites)
+    public function setExpression($expression)
     {
-        $this->jobsComposites = $jobsComposites;
+        $this->expression = $expression;
         return $this;
     }
 
+     public function __construct()
+     {
+         $this->historiques = new ArrayCollection();
+         $this->jobComposites = new ArrayCollection();
+     }
+
+    /**
+     * @return mixed
+     */
+
+
+
+     public function getCreatedBy(): ?Admin
+     {
+         return $this->createdBy;
+     }
+
+     public function setCreatedBy(?Admin $createdBy): self
+     {
+         $this->createdBy = $createdBy;
+
+         return $this;
+     }
+
+     /**
+      * @return Collection<int, Historique>
+      */
+     public function getHistoriques(): Collection
+     {
+         return $this->historiques;
+     }
+
+     public function addHistorique(Historique $historique): self
+     {
+         if (!$this->historiques->contains($historique)) {
+             $this->historiques[] = $historique;
+             $historique->setJobCronHist($this);
+         }
+
+         return $this;
+     }
+
+    /**
+     * @return mixed
+     */
     public function getScriptExec()
     {
         return $this->scriptExec;
     }
 
-
+    /**
+     * @param mixed $scriptExec
+     * @return JobCron
+     */
     public function setScriptExec($scriptExec)
     {
         $this->scriptExec = $scriptExec;
         return $this;
     }
-    public function getCreatedBy(): ?Admin
-    {
-        return $this->createdBy;
-    }
 
-    public function setCreatedBy(Admin $createdBy): self
-    {
-        $this->createdBy = $createdBy;
+     public function removeHistorique(Historique $historique): self
+     {
+         if ($this->historiques->removeElement($historique)) {
+             // set the owning side to null (unless already changed)
+             if ($historique->getJobCronHist() === $this) {
+                 $historique->setJobCronHist(null);
+             }
+         }
 
-        return $this;
-    }
-    public function __toString() {
-        return $this->scriptExec;
+         return $this;
+     }
+
+     public function __toString()
+     {
+         return $this->getScriptExec();
+     }
+
+
+
+
+
+
+    public function getRelationHistJobComp(): Collection
+    {
+        return $this->relationHistJobComp;
     }
 
     /**
-     * @return Collection<int, Historique>
+     * @param mixed $relationHistJobComp
+     * @return JobCron
      */
-    public function getHistorique(): Collection
+    public function setRelationHistJobComp($relationHistJobComp)
     {
-        return $this->historique;
+        $this->relationHistJobComp = $relationHistJobComp;
+        return $this;
     }
 
-    public function addHistorique(Historique $historique): self
+    /**
+     * @return Collection<int, JobComposite>
+     */
+    public function getJobComposites(): Collection
     {
-        if (!$this->historique->contains($historique)) {
-            $this->historique[] = $historique;
-            $historique->setJobCron($this);
+        return $this->jobComposites;
+    }
+
+    public function addJobComposite(JobComposite $jobComposite): self
+    {
+        if (!$this->jobComposites->contains($jobComposite)) {
+            $this->jobComposites[] = $jobComposite;
+            $jobComposite->addListSousJob($this);
         }
 
         return $this;
     }
 
-    public function removeHistorique(Historique $historique): self
+    public function removeJobComposite(JobComposite $jobComposite): self
     {
-        if ($this->historique->removeElement($historique)) {
-            // set the owning side to null (unless already changed)
-            if ($historique->getJobCron() === $this) {
-                $historique->setJobCron(null);
-            }
+        if ($this->jobComposites->removeElement($jobComposite)) {
+            $jobComposite->removeListSousJob($this);
         }
 
         return $this;
     }
+
+
+
+
 
 }
