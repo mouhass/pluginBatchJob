@@ -1,6 +1,4 @@
-Home:
-    path: /admin
-    controller: App\Controller\JobCronController::showAll
+
 logout:
   path: /logout
 

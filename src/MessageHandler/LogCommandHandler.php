@@ -23,27 +23,11 @@ class LogCommandHandler  implements MessageHandlerInterface
 
     }
 
-    public function __invoke(LogCommand $command,KernelInterface $kernel)
+    public function __invoke(LogCommand $command)
     {
-       echo "test 2";
-       sleep(10);
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
-        $input = new ArrayInput(array(
-            'command' => $command->getNameCommand(),
-
-        ));
-
-        // Use the NullOutput class instead of BufferedOutput.
-        $output = new BufferedOutput();
-
-        $application->run($input, $output);
-
-        $content = $output->fetch();
-
-
+        echo "test 2";
+        sleep(10);
+        exec("php bin/console ".$command->getNameCommand());
 
     }
-
-
 }

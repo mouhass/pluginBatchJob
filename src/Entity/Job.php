@@ -35,20 +35,9 @@ class Job
      * @ORM\Column(type="string")
      */
     private $name;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $state;
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $actif;
-    /**
-     * @ORM\OneToMany(targetEntity=Admin::class)
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $listDestination = [];
+
+
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -68,41 +57,10 @@ class Job
     }
 
 
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
 
-    public function setState(string $state): self
-    {
-        $this->state = $state;
 
-        return $this;
-    }
 
-    public function getActif(): ?bool
-    {
-        return $this->actif;
-    }
 
-    public function setActif(bool $actif): self
-    {
-        $this->actif = $actif;
-
-        return $this;
-    }
-
-    public function getListDestination(): ?array
-    {
-        return $this->listDestination;
-    }
-
-    public function setListDestination(array $listDestination): self
-    {
-        $this->listDestination = $listDestination;
-
-        return $this;
-    }
 
     public function getNextDateExec(): ?\DateTimeInterface
     {

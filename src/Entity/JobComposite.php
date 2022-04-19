@@ -24,20 +24,52 @@ class JobComposite extends Job
      */
     private $createdBy;
 
-    /**
-     * @ORM\Column(type="string")
-     */
 
-    private $test;
 
     /**
      * @ORM\ManyToMany(targetEntity=JobCron::class, inversedBy="jobComposites")
      */
     private $listSousJobs;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Admin::class, inversedBy="jobCompositeCreated")
+     */
+    private $listDestination;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $actif;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $state;
+
+    /**
+     * @return mixed
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
+
+    /**
+     * @param mixed $actif
+     * @return JobComposite
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+        return $this;
+    }
+
     public function __construct()
     {
         $this->listSousJobs = new ArrayCollection();
         $this->historiqueSousJob = new ArrayCollection();
+        $this->listDestination = new ArrayCollection();
     }
 
 
@@ -101,4 +133,41 @@ class JobComposite extends Job
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Admin>
+     */
+    public function getListDestination(): Collection
+    {
+        return $this->listDestination;
+    }
+
+    public function addListDestination(Admin $listDestination): self
+    {
+        if (!$this->listDestination->contains($listDestination)) {
+            $this->listDestination[] = $listDestination;
+        }
+
+        return $this;
+    }
+
+    public function removeListDestination(Admin $listDestination): self
+    {
+        $this->listDestination->removeElement($listDestination);
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
 }

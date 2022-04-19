@@ -44,6 +44,43 @@ class JobCron extends Job
     private $jobComposites;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Admin::class, inversedBy="jobCronCreated")
+     */
+    private $listDesination;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $actif;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $state;
+
+    /**
+     * @return mixed
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
+
+    /**
+     * @param mixed $actif
+     * @return JobCron
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+        return $this;
+    }
+
+
+
+
+    /**
      * @return mixed
      */
     public function getExpression()
@@ -65,6 +102,7 @@ class JobCron extends Job
      {
          $this->historiques = new ArrayCollection();
          $this->jobComposites = new ArrayCollection();
+         $this->listDesination = new ArrayCollection();
      }
 
     /**
@@ -185,8 +223,40 @@ class JobCron extends Job
         return $this;
     }
 
+    /**
+     * @return Collection<int, Admin>
+     */
+    public function getListDesination(): Collection
+    {
+        return $this->listDesination;
+    }
 
+    public function addListDesination(Admin $listDesination): self
+    {
+        if (!$this->listDesination->contains($listDesination)) {
+            $this->listDesination[] = $listDesination;
+        }
 
+        return $this;
+    }
 
+    public function removeListDesination(Admin $listDesination): self
+    {
+        $this->listDesination->removeElement($listDesination);
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
 
 }

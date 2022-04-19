@@ -3,6 +3,7 @@
 {% block title %}jobcron index{% endblock %}
 
 {% block body %}
+
     <h1>jobcron index</h1>
 
     <table class="table">
@@ -13,6 +14,7 @@
             <th>Expression</th>
             <th>Created by</th>
             <th>Command</th>
+            <th>Actif</th>
             <th>Actions</th>
             <th>Download log</th>
 
@@ -26,11 +28,23 @@
                 <td>{{ j.expression }}</td>
                 <td>{{ j.createdBy }}</td>
                 <td>{{ j.scriptExec }}</td>
+                <td> {% if(j.actif == 1) %}
+                        <a class="btn btn-warning" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}" >
+                            Activé
+
+                        </a>
+                    {% else %}
+                        <a class="btn btn-danger" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}">Désactivé</a>
+                    {% endif %}
+                </td>
                 <td>
+                    {% if(j.actif) %}
                     <a href="{{ path('app_JobCron_execute',{'id': j.id}) }}" class="btn btn-success">Execute immediately</a>
+                    {% endif %}
                     <a href="{{ path('app_JobCron_show', {'id': j.id}) }}" class="btn btn-primary">show</a>
                     <a href="{{ path('app_JobCron_edit', {'id': j.id}) }}" class="btn btn-secondary">edit</a>
                     <a href="{{ path('app_JobCron_delete', {'id': j.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('app_JobCron_nextdate',{'id':j.id}) }}">nextdate</a>
                 </td>
                 <td>
                     <a href="{{ path('app_JobCron_downloadFiles', {'id':j.id}) }}" class="btn btn-warning">Download</a>

@@ -1,61 +1,79 @@
-{% extends 'base.html.twig' %}
-{% block title 'Agence Lorem Ipsume' %}
- {% block body %}
-     <div style="background-color: white">
-         <div class="container">
-             <div class="jumbotron text-center" >
-                 <h1>la liste de tous les jobs</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Lato", sans-serif;
+        }
 
-             </div>
-         </div>
-     </div>
+        .sidebar {
+            margin: 0;
+            padding: 0;
+            width: 200px;
+            background-color: midnightblue;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+        }
 
-{#     <div class="ml  ">#}
-{#         <a href="{{ path('createJobCron') }}" class="btn btn-success">Créer un job cron</a>#}
-{#         <a href="{{ path('createJobComposite') }}" class="btn btn-light" >Créer un job composite</a>#}
-{#     </div>#}
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 16px;
+            text-decoration: none;
+        }
 
+        .sidebar a.active {
+            background-color: seagreen;
+            color: white;
+        }
 
-     <div class="container ">
-         <table class="table">
-             <thead>
-             <tr>
-                 <th>Name</th>
-                 <th>Expression</th>
-                 <th>Command</th>
-                 <th>Actions</th>
-                 <th>Type du job</th>
-             </tr>
-             </thead>
+        .sidebar a:hover:not(.active) {
+            background-color: indianred;
+            color: white;
+        }
 
-             <tbody>
-             {% for j in job %}
-                 <tr>
-                     <td>{{ j.name }}</td>
-                     <td>{{ j.Expression }}</td>
+        div.content {
+            margin-left: 200px;
+            padding: 1px 16px;
+            height: 1000px;
+        }
 
-                     <td>{{ j.scriptExec }}</td>
-                     <td>{{ j.createdBy }}</td>
-                     <td>
-{#                         <a href="{{ path('Home') }}" class="btn btn-success">Executer immediatement</a>#}
-{#                         <a href="{{  path('details', {'id': j.id}) }}" class="btn btn-light" >Details</a>#}
-{#                         <a href="{{ j.listSousJobs == [] ?  path('modifier', {'id':j.id}) : path('modifier', {'id':j.id}) }}" class="btn btn-warning">Modifier</a>#}
-{#                         <a href="{{ path('delete', {'id': j.id}) }}" class="btn btn-danger">Supprimer</a>#}
+        @media screen and (max-width: 700px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .sidebar a {float: left;}
+            div.content {margin-left: 0;}
+        }
 
-                     </td>
-{#                     <td>{{ j.listSousJobs == [] ? 'job cron' : 'job composite' }}</td>#}
-                 </tr>
-             {% else %}
-                 <tr>
-                     <td colspan="3">no records found</td>
-                 </tr>
-             {% endfor %}
+        @media screen and (max-width: 400px) {
+            .sidebar a {
+                text-align: center;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body>
 
+<div class="sidebar">
+    <a class="active" href="#">Home</a>
+    <a href="{{ path("app_admin_index") }}">Utilisateurs</a>
+    <a href="{{ path("app_jobCron_index") }}">Job Cron</a>
+    <a href="{{ path("app_job_composite_index") }}">Job Composites</a>
+</div>
 
+<div class="content">
+    <h2>Responsive Sidebar Example</h2>
+    <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
+    <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
+    <h3>Resize the browser window to see the effect.</h3>
+</div>
 
-         </table>
-     </div>
-
-
-
- {% endblock %}
+</body>
+</html>

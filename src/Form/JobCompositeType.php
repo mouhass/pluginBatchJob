@@ -21,9 +21,9 @@ class JobCompositeType extends AbstractType
             ->add('name',TextType::class)
             ->add('state',TextType::class)
             ->add('actif',TextType::class)
-            ->add('listDestination',EntityType::class,['class'=>Admin::class])
+            ->add('listDestination',EntityType::class,['class'=>Admin::class,'multiple'=>true])
             ->add('nextDateExec',DateTimeType::class)
-            ->add('listSousJobs',EntityType::class,['class'=>JobCron::class ])
+            ->add('listSousJobs',EntityType::class,['class'=>JobCron::class,'multiple'=>true ])
             ->add('createdBy',EntityType::class,['class'=>Admin::class])
         ;
     }

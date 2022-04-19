@@ -25,11 +25,11 @@ class sayhello extends Command
 
     const MAX_SIMULTANEOUS_PROCESSES = 50;
 
-    public function __construct(string $name = null,MailerInterface $mailer,LoggerInterface $logger,MessageBusInterface  $bus)
+    public function __construct(string $name = null,MailerInterface $mailer,LoggerInterface $logger,MessageBusInterface  $bus,JobCronRepository $repository)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
-        //$this->repository = $repository;
+        $this->repository = $repository;
         $this->bus = $bus;
         parent::__construct($name);
     }
@@ -47,17 +47,23 @@ class sayhello extends Command
     {
         try {
 //            $app = $this->getApplication();
-            $hello = $this->readJobs($this->repository);
+            //$hello = $this->readJobs($this->repository);
               $processes = [];
-              //$hello = ["0"=>"app:saygoodbye","1"=>"app:saywow"];
+              $hello = ["0"=>"app:saygoodbye","1"=>"app:saywow"];
 
 //                   $message = new LogCommand($hello[$x]);
 //                   $this->bus->dispatch($message);
-             for($x=0;$x<count($hello);$x++){
-                $process = new Process (sprintf('php bin/console %s', $hello[$x]->getScriptExec()));
-                $process->start();
+             for($x=0;$x<=count($hello)-1;$x++){
+//                $process = new Process (sprintf('php bin/console %s', $hello[$x]->getScriptExec()));
+//                $process->start();
+
+                     $message = new LogCommand($hello[$x]);
+                     $this->bus->dispatch($message);
+
+
             }
 
+            //dd($hello);
 
 
 

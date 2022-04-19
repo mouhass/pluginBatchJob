@@ -14,8 +14,7 @@
                 <th>Actif</th>
                 <th>ListDestination</th>
                 <th>listSousJobs</th>
-                <th>NextDateExec</th>
-                <th>actions</th>
+                <th>Actions</th>
                 <th>Download log</th>
             </tr>
         </thead>
@@ -25,10 +24,15 @@
                 <td>{{ job_composite.id }}</td>
                 <td>{{ job_composite.name }}</td>
                 <td>{{ job_composite.state }}</td>
-                <td>{{ job_composite.actif ? 'Yes' : 'No' }}</td>
+                <td> {% if(job_composite.actif == 1) %}
+                    <a class="btn btn-warning">{{ job_composite.actif }}</a>
+                    {% else %}
+                     <a class="btn btn-danger">{{ job_composite.actif }}</a>
+                        {% endif %}
+                </td>
+
                 <td>{{ job_composite.listDestination ? job_composite.listDestination|join(', ') : '' }}</td>
                 <td>{{ job_composite.listSousJobs ? job_composite.listSousJobs|join(', ') : '' }}</td>
-                <td>{{ job_composite.nextDateExec ? job_composite.nextDateExec|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_JobComposite_execute', {'id':job_composite.id}) }}"class="btn btn-success">Execute immediately</a>
                     <a href="{{ path('app_job_composite_show', {'id': job_composite.id}) }}" class="btn btn-primary">show</a>
@@ -36,8 +40,17 @@
                     <a href="{{ path('app_job_composite_delete' ,{'id': job_composite.id}) }}" class="btn btn-danger">Delete</a>
                 </td>
                 <td>
-                    <a href="{{ path('app_JobComposite_downloadFiles') }}" class="btn btn-warning">Download</a>
+                    {% for jobCron in job_composite.listSousJobs %}
+                        {% if(jobCron.actif) %}
+                        <a href="{{ path('app_JobCron_edit', {'id':jobCron.id}) }}" target="_blank" style="color:blue" >{{ jobCron.name }}</a>
+                        {% else %}
+                            <a href="{{ path('app_JobCron_edit', {'id':jobCron.id}) }}" target="_blank" style="color:red" >{{ jobCron.name }}</a>
+                        {% endif %}
+                            <a href="{{ path('app_JobCron_downloadFiles', {'id':jobCron.id}) }}" class="btn btn-warning pull-right">Download</a> <br><br>
+
+                    {% endfor %}
                 </td>
+
             </tr>
         {% else %}
             <tr>

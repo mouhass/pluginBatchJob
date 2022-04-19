@@ -83,8 +83,6 @@ class JobCompositeController extends AbstractController
             $em->persist($jobComposite);
             $em->flush();
             $this->addFlash('success',"un job composite a ete modifié avec succes");
-
-
             return $this->redirectToRoute('app_job_composite_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -118,18 +116,19 @@ class JobCompositeController extends AbstractController
         $myList = $jobComposite->getListSousJobs();
         $content = "";
         for($x=0;$x<=count($myList)-1;$x++){
-            $input = new ArrayInput(array(
-                'command' => $myList[$x]->getScriptExec(),
+            if($myList[$x]->actif) {
+                $input = new ArrayInput(array(
+                    'command' => $myList[$x]->getScriptExec(),
+                    'Related_job'=>$jobComposite->getId()
+                ));
 
-            ));
+                // Use the NullOutput class instead of BufferedOutput.
+                $output = new BufferedOutput();
 
-            // Use the NullOutput class instead of BufferedOutput.
-            $output = new BufferedOutput();
+                $application->run($input, $output);
 
-            $application->run($input, $output);
-
-            $content = $content.$output->fetch();
-
+                $content = $content . $output->fetch();
+            }
         }
 
 
@@ -152,5 +151,7 @@ class JobCompositeController extends AbstractController
     public function download(){
 
     }
+
+
 
 }

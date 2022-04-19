@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Admin;
+use App\Entity\Job;
 use App\Entity\JobComposite;
 use App\Entity\JobCron;
 use App\Form\AdminType;
@@ -12,8 +13,10 @@ use App\Message\LogCommand;
 use App\Repository\AdminRepository;
 use App\Repository\HistoriqueRepository;
 use App\Repository\JobCronRepository;
+use Cron\CronExpression;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Panlatent\CronExpressionDescriptor\ExpressionDescriptor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -161,6 +164,42 @@ class JobCronController extends AbstractController
         $historique = $repository->findByExampleField($jobCron);
 
         return $this->file($kernel->getProjectDir().max($historique)->getPath());
+    }
+
+
+    /**
+     * @Route("/{id}/actifdesactif", name="app_JobCron_actifdesactif",methods={"GET","PUT"})
+     */
+    public function actifdesactif(JobCron $jobCron,EntityManagerInterface $manager){
+        if($jobCron->getActif()){
+            $jobCron->setActif(false);
+            $manager->persist($jobCron);
+            $manager->flush();
+        }
+        else{
+            $jobCron->setActif(true);
+            $manager->persist($jobCron);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('app_jobCron_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+
+
+    /**
+     * @Route("/{id}/date/",name="app_JobCron_date" , methods={"GET"})
+     */
+    public function giveDate(JobCronRepository $repository){
+        return new Response($repository->giveDateTime());
+    }
+
+    /**
+     * @Route("/{id}/nextDate/",name="app_JobCron_nextdate",methods={"GET"})
+     */
+    public function nextDate(JobCronRepository $repository){
+        $cron = new CronExpression('* * * * *');
+        return new Response($cron->getNextRunDate()->format('i G j n w'));
     }
 
 

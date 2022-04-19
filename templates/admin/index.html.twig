@@ -34,6 +34,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+     {% if app.user.username == "demo" and app.user.password == "demo" %}
     <a href="{{ path('app_admin_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
