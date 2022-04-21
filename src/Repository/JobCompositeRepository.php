@@ -39,4 +39,13 @@ class JobCompositeRepository extends ServiceEntityRepository
         return $qb;
     }
 
+
+    public function findByName(string $name){
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :val')
+            ->setParameter('val', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

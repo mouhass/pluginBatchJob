@@ -8,34 +8,35 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>State</th>
+                <th>Nom</th>
+                <th>Etat</th>
                 <th>Actif</th>
-                <th>ListDestination</th>
-                <th>listSousJobs</th>
+                <th>Liste des admins</th>
+                <th>Liste sous jobs</th>
                 <th>Actions</th>
-                <th>Download log</th>
+                <th>Télécharger log</th>
             </tr>
         </thead>
         <tbody>
         {% for job_composite in job_composites %}
             <tr>
-                <td>{{ job_composite.id }}</td>
+
                 <td>{{ job_composite.name }}</td>
                 <td>{{ job_composite.state }}</td>
                 <td> {% if(job_composite.actif == 1) %}
-                    <a class="btn btn-warning">{{ job_composite.actif }}</a>
+                        <a class="btn btn-warning" href="{{ path("app_JobComposite_actifdesactif", {'id':job_composite.id}) }}" >
+                            Activé
+
+                        </a>
                     {% else %}
-                     <a class="btn btn-danger">{{ job_composite.actif }}</a>
-                        {% endif %}
+                        <a class="btn btn-danger" href="{{ path("app_JobComposite_actifdesactif", {'id':job_composite.id}) }}">Désactivé</a>
+                    {% endif %}
                 </td>
 
                 <td>{{ job_composite.listDestination ? job_composite.listDestination|join(', ') : '' }}</td>
                 <td>{{ job_composite.listSousJobs ? job_composite.listSousJobs|join(', ') : '' }}</td>
                 <td>
                     <a href="{{ path('app_JobComposite_execute', {'id':job_composite.id}) }}"class="btn btn-success">Execute immediately</a>
-                    <a href="{{ path('app_job_composite_show', {'id': job_composite.id}) }}" class="btn btn-primary">show</a>
                     <a href="{{ path('app_job_composite_edit', {'id': job_composite.id}) }}" class="btn btn-secondary">edit</a>
                     <a href="{{ path('app_job_composite_delete' ,{'id': job_composite.id}) }}" class="btn btn-danger">Delete</a>
                 </td>

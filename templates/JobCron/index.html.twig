@@ -10,13 +10,14 @@
         <thead>
         <tr>
 
-            <th>Name</th>
+            <th>Nom</th>
             <th>Expression</th>
-            <th>Created by</th>
-            <th>Command</th>
+            <th>Créé par</th>
+            <th>Commande</th>
             <th>Actif</th>
+            <th>Etat</th>
             <th>Actions</th>
-            <th>Download log</th>
+            <th>Télécharger log</th>
 
         </tr>
         </thead>
@@ -38,16 +39,18 @@
                     {% endif %}
                 </td>
                 <td>
+                    {{ j.state }}
+                </td>
+                <td>
                     {% if(j.actif) %}
-                    <a href="{{ path('app_JobCron_execute',{'id': j.id}) }}" class="btn btn-success">Execute immediately</a>
+                    <a href="{{ path('app_JobCron_execute',{'id': j.id}) }}" class="btn btn-success">Execution immédiate</a>
                     {% endif %}
-                    <a href="{{ path('app_JobCron_show', {'id': j.id}) }}" class="btn btn-primary">show</a>
-                    <a href="{{ path('app_JobCron_edit', {'id': j.id}) }}" class="btn btn-secondary">edit</a>
-                    <a href="{{ path('app_JobCron_delete', {'id': j.id}) }}" class="btn btn-danger">Delete</a>
+                    <a href="{{ path('app_JobCron_edit', {'id': j.id}) }}" class="btn btn-secondary">Modifier</a>
+                    <a href="{{ path('app_JobCron_delete', {'id': j.id}) }}" class="btn btn-danger">Supprimer</a>
                     <a href="{{ path('app_JobCron_nextdate',{'id':j.id}) }}">nextdate</a>
                 </td>
                 <td>
-                    <a href="{{ path('app_JobCron_downloadFiles', {'id':j.id}) }}" class="btn btn-warning">Download</a>
+                    <a href="{{ path('app_JobCron_downloadFiles', {'id':j.id}) }}" class="btn btn-warning">Télécharger</a>
                 </td>
 
             </tr>

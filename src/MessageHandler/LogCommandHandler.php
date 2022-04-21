@@ -3,6 +3,8 @@
 namespace App\MessageHandler;
 
 use App\Message\LogCommand;
+use App\Repository\JobCronRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -16,18 +18,22 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 class LogCommandHandler  implements MessageHandlerInterface
 {
     private $kernel;
-
-    public function __construct(KernelInterface $kernel)
+    private $registry;
+    public function __construct(KernelInterface $kernel,ManagerRegistry $registry)
     {
         $this->kernel = $kernel;
-
+        $this->registry = $registry;
     }
 
     public function __invoke(LogCommand $command)
     {
         echo "test 2";
         sleep(10);
-        exec("php bin/console ".$command->getNameCommand());
+
+        $rep = new JobCronRepository($this->registry);
+        $jobCron = $rep->commandPossesses($command->getNameCommand());
+        exec("php bin/console ".$command->getNameCommand()." ".$command->getIdJobCron().' '.$command->getNomJobComposite().' '.$command->getDernierSousJob());
+       echo "finished";
 
     }
 }

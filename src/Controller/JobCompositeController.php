@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\JobComposite;
 use App\Entity\JobCron;
 use App\Form\JobCompositeType;
+use App\Message\LogCommand;
 use App\Repository\JobCompositeRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,9 +25,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class JobCompositeController extends AbstractController
 {
     private $manager;
-    public function __construct(EntityManagerInterface $manager)
+    private $bus;
+    public function __construct(EntityManagerInterface $manager,MessageBusInterface $bus)
     {
         $this->manager = $manager;
+        $this->bus = $bus;
     }
 
     /**
@@ -111,28 +115,47 @@ class JobCompositeController extends AbstractController
 
     public function execImm(KernelInterface $kernel,JobComposite $jobComposite){
 
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
+//        $application = new Application($kernel);
+//        $application->setAutoExit(false);
+//        $myList = $jobComposite->getListSousJobs();
+//        $content = "";
+//        for($x=0;$x<=count($myList)-1;$x++){
+//            if($myList[$x]->actif) {
+//                $input = new ArrayInput(array(
+//                    'command' => $myList[$x]->getScriptExec(),
+//                    'Related_job'=>$jobComposite->getId()
+//                ));
+//
+//                // Use the NullOutput class instead of BufferedOutput.
+//                $output = new BufferedOutput();
+//
+//                $application->run($input, $output);
+//
+//                $content = $content . $output->fetch();
+//            }
+//        }
+        $jobComposite->setState("en cours");
+        $this->manager->persist($jobComposite);
+        $this->manager->flush();
         $myList = $jobComposite->getListSousJobs();
-        $content = "";
         for($x=0;$x<=count($myList)-1;$x++){
-            if($myList[$x]->actif) {
-                $input = new ArrayInput(array(
-                    'command' => $myList[$x]->getScriptExec(),
-                    'Related_job'=>$jobComposite->getId()
-                ));
+            if($myList[$x]->actif ) {
+                if($x!=count($myList)-1){
+                $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getName(),"0");
+                $this->bus->dispatch($message);}
 
-                // Use the NullOutput class instead of BufferedOutput.
-                $output = new BufferedOutput();
+            if($x==count($myList)-1){
+            $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getName(),"1");
+            $this->bus->dispatch($message);
+                }
+            $myList[$x]->setState("en cours");$this->manager->persist($myList[$x]);$this->manager->flush();
 
-                $application->run($input, $output);
+        }}
+//
 
-                $content = $content . $output->fetch();
-            }
-        }
+        //dd(count($myList));
 
-
-        return new Response($content);
+        return $this->redirectToRoute('app_job_composite_index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
@@ -144,14 +167,28 @@ class JobCompositeController extends AbstractController
        dd($res);
 
     }
-
     /**
      * @Route("/{id}/downloadFiles", name="app_JobComposite_downloadFiles")
      */
     public function download(){
 
     }
-
+    /**
+     * @Route("/{id}/actifdesactif", name="app_JobComposite_actifdesactif",methods={"GET","PUT"})
+     */
+    public function actifdesactif(JobComposite $jobComposite,EntityManagerInterface $manager){
+        if($jobComposite->getActif()){
+            $jobComposite->setActif(false);
+            $manager->persist($jobComposite);
+            $manager->flush();
+        }
+        else{
+            $jobComposite->setActif(true);
+            $manager->persist($jobComposite);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('app_job_composite_index', [], Response::HTTP_SEE_OTHER);
+    }
 
 
 }

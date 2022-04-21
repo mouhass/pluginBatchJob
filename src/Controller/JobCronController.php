@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/admin/job/cron")
@@ -35,10 +36,12 @@ class JobCronController extends AbstractController
 {
     private $jobCronRepo;
     private $manager;
-    public function __construct(JobCronRepository $jobCronRepo,EntityManagerInterface $manager)
+    private $bus;
+    public function __construct(JobCronRepository $jobCronRepo,EntityManagerInterface $manager,MessageBusInterface  $bus)
     {
         $this->jobCronRepo = $jobCronRepo;
         $this->manager = $manager;
+        $this->bus = $bus;
     }
 
 
@@ -128,20 +131,38 @@ class JobCronController extends AbstractController
      * @Route("/{id}/execImme", name="app_JobCron_execute" , methods={"GET","POST"})
      */
     public function execImm(KernelInterface $kernel,JobCron $jobCron){
+//        $jobCron->setState("en cours");
+//        $this->manager->persist($jobCron);
+//        $this->manager->flush();
+//        $application = new Application($kernel);
+//        $application->setAutoExit(false);
+//        $input = new ArrayInput(array(
+//            'command' => $jobCron->getScriptExec(),
+//            'Related_job'=>$jobCron->getId()
+//        ));
+//
+//        // Use the NullOutput class instead of BufferedOutput.
+//        $output = new BufferedOutput();
+//
+//        $application->run($input, $output);
+//
+//        $content = $output->fetch();
+//        $pr = new Process(sprintf('php bin/console %s %s',  $jobCron->getScriptExec(),$jobCron->getId()));
+//        $pr->setWorkingDirectory(__DIR__ . '/../..');
+//
+//        $pr->start();
+//        while ($pr->isRunning()) {
+//            $jobCron->setState("en cours");
+//            $this->manager->persist($jobCron);
+//            $this->manager->flush();
+//
+//        }
 
-        $application = new Application($kernel);
-        $application->setAutoExit(false);
-        $input = new ArrayInput(array(
-            'command' => $jobCron->getScriptExec(),
-            'Related_job'=>$jobCron->getId()
-        ));
-
-        // Use the NullOutput class instead of BufferedOutput.
-        $output = new BufferedOutput();
-
-        $application->run($input, $output);
-
-        $content = $output->fetch();
+        $message = new LogCommand($jobCron->getScriptExec(),$jobCron->getId(),"0","0");
+        $this->bus->dispatch($message);
+        $jobCron->setState("en cours");
+        $this->manager->persist($jobCron);
+        $this->manager->flush();
         return $this->redirectToRoute('app_jobCron_index', [], Response::HTTP_SEE_OTHER);
 
     }

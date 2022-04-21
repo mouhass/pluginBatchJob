@@ -55,6 +55,14 @@ class JobCronRepository extends ServiceEntityRepository
         }
     }
 
+    public function commandPossesses(string $command){
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.scriptExec = :val')
+            ->setParameter('val', $command)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
 
 

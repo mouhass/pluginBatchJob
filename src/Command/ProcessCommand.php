@@ -19,10 +19,6 @@ class ProcessCommand extends Command
     {
         //$phpBinaryFinder = new PhpExecutableFinder();
 
-        $pr = new Process(sprintf('php bin/console %s', "app:saygoodbye"));
-        $pr->setWorkingDirectory(__DIR__ . '/../..');
-
-        $pr->start();
 
         while ($pr->isRunning()) {
 
