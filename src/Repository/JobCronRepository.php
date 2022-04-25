@@ -67,6 +67,8 @@ class JobCronRepository extends ServiceEntityRepository
 
 
 
+
+
     public function parse_crontab($time, $crontab) {
         // Get current minute, hour, day, month, weekday
         $time = explode(' ', date('i G j n w', strtotime($time)));

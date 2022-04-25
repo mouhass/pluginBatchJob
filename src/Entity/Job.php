@@ -35,20 +35,10 @@ class Job
      * @ORM\Column(type="string")
      */
     private $name;
-
-
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $nextDateExec;
-
-
     public function getName(): ?string
     {
         return $this->name;
     }
-
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -62,15 +52,4 @@ class Job
 
 
 
-    public function getNextDateExec(): ?\DateTimeInterface
-    {
-        return $this->nextDateExec;
-    }
-
-    public function setNextDateExec(\DateTimeInterface $nextDateExec): self
-    {
-        $this->nextDateExec = $nextDateExec;
-
-        return $this;
-    }
 }

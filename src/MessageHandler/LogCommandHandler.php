@@ -29,9 +29,6 @@ class LogCommandHandler  implements MessageHandlerInterface
     {
         echo "test 2";
         sleep(10);
-
-        $rep = new JobCronRepository($this->registry);
-        $jobCron = $rep->commandPossesses($command->getNameCommand());
         exec("php bin/console ".$command->getNameCommand()." ".$command->getIdJobCron().' '.$command->getNomJobComposite().' '.$command->getDernierSousJob());
        echo "finished";
 

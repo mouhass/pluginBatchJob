@@ -5,7 +5,7 @@
 {% block body %}
 
     <h1>jobcron index</h1>
-
+    <a href="{{ path('app_jobCron_new') }}" class="btn btn-success">Create new</a>
     <table class="table">
         <thead>
         <tr>
@@ -63,4 +63,16 @@
     </table>
 
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        window.setInterval('refresh()', 30000);
+        // Call a function every 10000 milliseconds
+        // (OR 10 seconds).
+
+        // Refresh or reload page.
+        function refresh() {
+            window .location.reload();
+        }
+    </script>
 {% endblock %}
