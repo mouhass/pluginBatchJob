@@ -1,33 +1,22 @@
 <?php
-
 namespace App\Controller;
-
-use App\Entity\Admin;
-use App\Entity\Job;
-use App\Entity\JobComposite;
 use App\Entity\JobCron;
-use App\Form\AdminType;
+use App\Entity\JobCronSearch;
+use App\Form\CreateNewJobCronType;
+use App\Form\EditJobCronType;
+use App\Form\JobCronSearchType;
 use App\Form\JobCronType;
-use App\Form\JobType;
 use App\Message\LogCommand;
-use App\Repository\AdminRepository;
 use App\Repository\HistoriqueRepository;
 use App\Repository\JobCronRepository;
 use Cron\CronExpression;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Panlatent\CronExpressionDescriptor\ExpressionDescriptor;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/admin/job/cron")
@@ -48,10 +37,18 @@ class JobCronController extends AbstractController
     /**
      * @Route("/", name="app_jobCron_index", methods={"GET"})
      */
-    public function index(JobCronRepository $jobCronRepository): Response
+    public function index(PaginatorInterface $paginator,JobCronRepository $jobCronRepository, Request $request): Response
     {
+        $search = new JobCronSearch();
+        $form = $this->createForm(JobCronSearchType::class,$search);
+        $form->handleRequest($request);
+
+        $jobCron = $paginator->paginate($jobCronRepository->findSpecific($search), $request->query->getInt('page',1),4);
+
+
         return $this->render('JobCron/index.html.twig', [
-            'jobCron' => $jobCronRepository->findAll(),
+            'jobCron' => $jobCron,
+            'form'=> $form->createView()
         ]);
     }
 
@@ -61,9 +58,12 @@ class JobCronController extends AbstractController
     public function new(Request $request, JobCronRepository $jobCronRepository): Response
     {
         $jobCron = new JobCron();
-        $form = $this->createForm(JobCronType::class, $jobCron);
+        $form = $this->createForm(CreateNewJobCronType::class, $jobCron);
         $form->handleRequest($request);
 
+        $jobCron->setState("NOUVEAU");
+        $jobCron->setActif(1);
+        $jobCron->setNumero(rand(1000,9999));
         if ($form->isSubmitted() && $form->isValid()) {
             $jobCronRepository->add($jobCron);
 
@@ -93,7 +93,7 @@ class JobCronController extends AbstractController
     public function edit(Request $request, JobCron $jobCron, JobCronRepository $repository): Response
     {
 
-        $form = $this->createForm(JobCronType::class, $jobCron);
+        $form = $this->createForm(EditJobCronType::class, $jobCron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -112,6 +112,7 @@ class JobCronController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/{id}/delete", name="app_JobCron_delete", methods={"GET","POST"})
      */
@@ -121,11 +122,14 @@ class JobCronController extends AbstractController
              $jobCronRepository->remove($jobCron);
          }
          else{
-             $this->addFlash('error', "This user has connected services, so it can't be removed.");
+
          }
 
         return $this->redirectToRoute('app_jobCron_index', [], Response::HTTP_SEE_OTHER);
+        //return new Response(implode() );
+
     }
+
 
     /**
      * @Route("/{id}/execImme", name="app_JobCron_execute" , methods={"GET","POST"})
@@ -219,9 +223,16 @@ class JobCronController extends AbstractController
      * @Route("/{id}/nextDate/",name="app_JobCron_nextdate",methods={"GET"})
      */
     public function nextDate(JobCronRepository $repository){
-        $cron = new CronExpression('* * * * *');
-        return new Response($cron->getNextRunDate()->format('i G j n w'));
+        $jobCron = $repository->findElementById(13);
+        $cron = new CronExpression($jobCron->getExpression());
+//        return new Response($cron->getNextRunDate()->format('i G j n w'));
+        echo date('i G j n w', strtotime('+1 minute'));
+        echo $cron->getNextRunDate()->format('i G j n w');
+        echo get_debug_type($cron->getNextRunDate()->format('i G j n w'));
+        return new Response(date('i G j n w', strtotime('+1 minute'))==$cron->getNextRunDate()->format('i G j n w') ? 'yes':'no');
+
     }
 
 
 }
+

@@ -49,8 +49,12 @@ class CommandePrincipale extends Command
     {
         $hello1 = $this->readJobsCron($this->jobCronRepository);
         $hello2 = $this->readJobsComposites($this->jobCompositeRepository);
+        $ActuDate =  date('i G j n w', strtotime('+1 minute'));
        for($x=0;$x<count($hello1);$x++){
-           if($hello1[$x]->getScriptExec() != "app:commandeprincipale") {
+           if(     $hello1[$x]->getScriptExec() != "app:commandeprincipale" and
+               $hello1[$x]->nextDateCron($hello1[$x]->getExpression())==$ActuDate and
+                   $hello1[$x]->getActif()==true)
+           {
                $message = new LogCommand($hello1[$x]->getScriptExec(), $hello1[$x]->getId(), "0", "0");
                $this->bus->dispatch($message);
                $hello1[$x]->setState("en cours");
@@ -61,22 +65,23 @@ class CommandePrincipale extends Command
 
        for($x=0;$x<count($hello2);$x++){
            $lesSousJobs = $hello2[$x]->getListSousJobs();
-           for($y=0;$y<count($lesSousJobs);$y++){
-               if($y!=count($lesSousJobs)-1){
-                   $message = new LogCommand($lesSousJobs[$y]->getScriptExec(), $lesSousJobs[$y]->getId(),$hello2[$x]->getName() , "0");
-               }
-               else{
-                   $message = new LogCommand($lesSousJobs[$y]->getScriptExec(), $lesSousJobs[$y]->getId(),$hello2[$x]->getName() , "1");
-               }
-               $this->bus->dispatch($message);
-               $hello2[$x]->setState("en cours");
-               $this->manager->persist($hello2[$x]);
-               $this->manager->flush();
+           if($hello2[$x]->nextDateCron($hello2[$x]->getExpression())==$ActuDate and $hello2[$x]->getActif()==true) {
+               for ($y = 0; $y < count($lesSousJobs); $y++) {
+                   if ($y != count($lesSousJobs) - 1) {
+                       $message = new LogCommand($lesSousJobs[$y]->getScriptExec(), $lesSousJobs[$y]->getId(), $hello2[$x]->getName(), "0");
+                   } else {
+                       $message = new LogCommand($lesSousJobs[$y]->getScriptExec(), $lesSousJobs[$y]->getId(), $hello2[$x]->getName(), "1");
+                   }
+                   $this->bus->dispatch($message);
+                   $hello2[$x]->setState("en cours");
+                   $this->manager->persist($hello2[$x]);
+                   $this->manager->flush();
 
+               }
            }
-       }
+//       }
        return "finished";
-    }
+    }}
 
 
 }

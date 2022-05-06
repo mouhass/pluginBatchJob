@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\JobComposite;
+use App\Entity\JobCompositeSearch;
 use App\Entity\JobCron;
+use App\Form\CreateNewJobCompositeType;
+use App\Form\EditJobCompositeType;
+use App\Form\JobCompositeSearchType;
 use App\Form\JobCompositeType;
 use App\Message\LogCommand;
 use App\Repository\JobCompositeRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -35,10 +40,16 @@ class JobCompositeController extends AbstractController
     /**
      * @Route("/", name="app_job_composite_index", methods={"GET"})
      */
-    public function index(JobCompositeRepository $jobCompositeRepository): Response
+    public function index(PaginatorInterface $paginator,JobCompositeRepository $jobCompositeRepository,Request $request): Response
     {
+        $search = new JobCompositeSearch();
+        $form = $this->createForm(JobCompositeSearchType::class,$search);
+        $form->handleRequest($request);
+
+        $jobComposite = $paginator->paginate($jobCompositeRepository->findSpecific($search), $request->query->getInt('page',1),2);
         return $this->render('job_composite/index.html.twig', [
-            'job_composites' => $jobCompositeRepository->findAll(),
+            'job_composites' => $jobComposite,
+            'form'=>$form->createView()
         ]);
     }
 
@@ -48,8 +59,12 @@ class JobCompositeController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $jobComposite = new JobComposite();
-        $form = $this->createForm(JobCompositeType::class, $jobComposite);
+        $form = $this->createForm(CreateNewJobCompositeType::class, $jobComposite);
         $form->handleRequest($request);
+
+        $jobComposite->setActif(1);
+        $jobComposite->setState("NOUVEAU");
+        $jobComposite->setNumerocomposite(rand(1000,9999));
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($jobComposite);
@@ -79,7 +94,7 @@ class JobCompositeController extends AbstractController
      */
     public function edit(Request $request, JobComposite $jobComposite,EntityManagerInterface $manager): Response
     {
-        $form = $this->createForm(JobCompositeType::class, $jobComposite);
+        $form = $this->createForm(EditJobCompositeType::class, $jobComposite);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

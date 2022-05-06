@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Cron\CronExpression;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -58,6 +59,11 @@ class JobCron extends Job
      * @ORM\Column(type="string")
      */
     private $state;
+
+    /**
+     * @ORM\Column(type="integer",unique=true)
+     */
+    private $numero;
 
     /**
      * @return mixed
@@ -258,5 +264,25 @@ class JobCron extends Job
 
         return $this;
     }
+
+    public function nextDateCron(string $expression){
+
+        $cron = new CronExpression($expression);
+        return $cron->getNextRunDate()->format('i G j n w');
+    }
+
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(int $numero): self
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+
 
 }

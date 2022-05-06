@@ -4,10 +4,13 @@ namespace App\Repository;
 
 use App\Entity\JobComposite;
 
+use App\Entity\JobCompositeSearch;
 use App\Entity\JobCron;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,4 +51,37 @@ class JobCompositeRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findVisibleQuery():QueryBuilder{
+        return $this->createQueryBuilder('a');
+    }
+    public function findSpecific(JobCompositeSearch $search):Query
+    {
+        $query = $this->findVisibleQuery();
+        if ($search->getNumerocomposite() and $search->getNumerocomposite() != "") {
+            $query = $query->where('a.numerocomposite = :numerocomposite')
+                ->setParameter('numerocomposite', $search->getNumerocomposite());
+        }
+//        if($search->getName() and $search->getName()!=""and $search->getNameSousJob() and $search->getNameSousJob()!="")
+//        {
+//            $query = $query->where('a.name = :name ')
+//                ->where($query->expr()->like('a.listSousJobs',':sousJob') )
+//                ->setParameter('name',$search->getName())
+//                ->setParameter('sousJob',$search->getNameSousJob());
+//            $query->join('a.listSousJobs','al');
+//
+//
+//        }
+        if ($search->getExpression() and $search->getExpression() != "") {
+            $query = $query->where('a.expression = :expression')
+                ->setParameter('expression', $search->getExpression());
+        }
+        if($search->getNumerocomposite()!="" and $search->getExpression()!=""){
+            $query = $query->where('a.expression = :expression and a.numerocomposite = :numerocomposite')
+
+                ->setParameter('expression', $search->getExpression())
+                ->setParameter('numerocomposite', $search->getNumerocomposite());
+        }
+        return $query->getQuery();
+
+    }
 }

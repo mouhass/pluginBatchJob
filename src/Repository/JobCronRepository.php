@@ -5,13 +5,17 @@ namespace App\Repository;
 
 use App\Entity\Admin;
 use App\Entity\JobCron;
+use App\Entity\JobCronSearch;
 use Cron\CronExpression;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method JobCron|null find($id, $lockMode = null, $lockVersion = null)
@@ -62,6 +66,39 @@ class JobCronRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findAllVisible():Query
+    {
+        return $this->findVisibleQuery()->getQuery();
+
+    }
+    public function findVisibleQuery():QueryBuilder{
+        return $this->createQueryBuilder('p');
+
+
+    }
+
+    public function findSpecific(JobCronSearch $search):Query{
+         $query = $this->findVisibleQuery();
+         if($search->getNumero() and $search->getNumero()!=""){
+                $query = $query->where('p.numero = :numero')
+                    ->setParameter('numero',$search->getNumero());
+         }
+         if($search->getCommand() and $search->getCommand()!=""){
+             $query = $query->where('p.scriptExec = :command')
+                 ->setParameter('command',$search->getCommand());
+         }
+         if($search->getNumero()!="" and $search->getCommand()!=""){
+             $query = $query->where('p.numero = :numero and p.scriptExec = :command ')
+
+                 ->setParameter('numero',$search->getNumero())
+                 ->setParameter('command',$search->getCommand());
+         }
+         return  $query->getQuery();
+    }
+
+
+
 
 
 

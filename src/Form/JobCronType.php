@@ -20,6 +20,7 @@ class JobCronType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('numero',TextType::class)
             ->add('name',TextType::class, ['required'=>false])
             ->add('expression', TextType::class,['required'=>false])
             ->add('state',TextType::class,['required'=>false])

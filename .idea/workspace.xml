@@ -2,21 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b198b9e0-5aa8-4b6d-9c1d-4eb42eedfb8f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/pluginBatchJobs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pluginBatchJobs.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/console" beforeDir="false" afterPath="$PROJECT_DIR$/bin/console" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bootstrap.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bootstrap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/ProcessCommand.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Job.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Job.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/CommandePrincipale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/CommandePrincipale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/saywow.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/saywow.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/JobCompositeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JobCompositeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/JobCronController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JobCronController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobComposite.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobComposite.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobCron.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobCron.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/JobCompositeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCompositeType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/JobCronType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCronType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MessageHandler/LogCommandHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/MessageHandler/LogCommandHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Type/JobCompositeType.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Type/JobCronType.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/JobCompositeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/JobCompositeRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/JobCronRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/JobCronRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/JobCron/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Security/login.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Security/login.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/_delete_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/show.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/job_composite/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tous.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tous.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +54,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -159,6 +192,10 @@
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/myclabs/php-enum" />
       <path value="$PROJECT_DIR$/vendor/panlatent/cron-expression-descriptor" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/asset" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
@@ -273,7 +310,14 @@
       <workItem from="1650679171551" duration="4324000" />
       <workItem from="1650687077695" duration="1962000" />
       <workItem from="1650747491599" duration="7538000" />
-      <workItem from="1650906572445" duration="658000" />
+      <workItem from="1650906572445" duration="8798000" />
+      <workItem from="1650986451093" duration="10797000" />
+      <workItem from="1651019027335" duration="9012000" />
+      <workItem from="1651066139443" duration="21093000" />
+      <workItem from="1651139748157" duration="6571000" />
+      <workItem from="1651201795180" duration="3719000" />
+      <workItem from="1651659216787" duration="23929000" />
+      <workItem from="1651740776578" duration="15486000" />
     </task>
     <servers />
   </component>

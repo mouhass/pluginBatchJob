@@ -45,15 +45,15 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_admin_show", methods={"GET"})
-     */
-    public function show(Admin $admin): Response
-    {
-        return $this->render('admin/show.html.twig', [
-            'admin' => $admin,
-        ]);
-    }
+//    /**
+//     * @Route("/{id}", name="app_admin_show", methods={"GET"})
+//     */
+//    public function show(Admin $admin): Response
+//    {
+//        return $this->render('admin/show.html.twig', [
+//            'admin' => $admin,
+//        ]);
+//    }
 
     /**
      * @Route("/{id}/edit", name="app_admin_edit", methods={"GET", "POST"})
@@ -75,13 +75,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_admin_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="app_admin_delete", methods={"GET","POST"})
      */
     public function delete(Request $request, Admin $admin, AdminRepository $adminRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$admin->getId(), $request->request->get('_token'))) {
-            $adminRepository->remove($admin);
-        }
+//        if ($this->isCsrfTokenValid('delete'.$admin->getId(), $request->request->get('_token'))) {
+//
+//        }
+        $adminRepository->remove($admin);
 
         return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
     }

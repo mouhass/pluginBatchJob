@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Repository\JobCompositeRepository;
+use Cron\CronExpression;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,6 +47,34 @@ class JobComposite extends Job
      * @ORM\Column(type="string")
      */
     private $state;
+
+    /**
+     * @return mixed
+     */
+    public function getExpression()
+    {
+        return $this->expression;
+    }
+
+    /**
+     * @param mixed $expression
+     * @return JobComposite
+     */
+    public function setExpression($expression)
+    {
+        $this->expression = $expression;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $expression;
+
+    /**
+     * @ORM\Column(type="integer", unique=true)
+     */
+    private $numerocomposite;
 
     /**
      * @return mixed
@@ -170,4 +199,26 @@ class JobComposite extends Job
         return $this;
     }
 
+    public function nextDateCron(string $expression){
+
+        $cron = new CronExpression($expression);
+        return $cron->getNextRunDate()->format('i G j n w');
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    public function getNumerocomposite(): ?int
+    {
+        return $this->numerocomposite;
+    }
+
+    public function setNumerocomposite(int $numerocomposite): self
+    {
+        $this->numerocomposite = $numerocomposite;
+
+        return $this;
+    }
 }
