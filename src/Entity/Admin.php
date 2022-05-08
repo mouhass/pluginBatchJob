@@ -6,11 +6,13 @@ use App\Repository\AdminRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AdminRepository::class)
  */
-class Admin
+class Admin implements UserInterface,\Serializable
 {
     /**
      * @ORM\Id
@@ -78,7 +80,7 @@ public function __toString()
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setUsername(string $name): self
     {
         $this->name = $name;
 
@@ -223,5 +225,43 @@ public function __toString()
         return $this;
     }
 
+    public function getRoles()
+    {
+        return  ['ROLE_ADMIN'];
+    }
 
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
+
+    public function serialize()
+    { // transformer un objet en une chaine
+        return serialize([
+                $this->getId(),
+                $this->getName(),
+                $this->getPassword()]
+        );
+    }
+
+    public function unserialize($serialized)
+    { //transformer une chaine en un objet
+        list($this->id,
+            $this->name,
+            $this->password,
+            ) = unserialize($serialized, ['allowed_classes'=>false]);
+    }
+
+    public function getUsername()
+    {
+        return $this->name;
+    }
 }

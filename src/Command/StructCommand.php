@@ -4,14 +4,10 @@ use App\Controller\MailerController;
 use App\Entity\Historique;
 use App\Entity\JobComposite;
 use App\Entity\JobCron;
-use App\Repository\JobCompositeRepository;
 use App\Repository\JobCronRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
 class StructCommand
@@ -30,8 +26,8 @@ class StructCommand
     public function ajoutHistoriqueSucces(InputInterface $input,JobCron $jobCron){
         $historique = new Historique();
         $historique->setCreatedAt(new \DateTime());
-        if ($input->getArgument('nom_job_composite') == "0") {$historique->setPath('/var/log/saywow_succes' . date("y-m-d-G-i-s") . '.log');}
-        else {$historique->setPath('/var/log/saywow_succes' . $input->getArgument('nom_job_composite') . date("y-m-d-G-i-s") . '--' . $input->getArgument('dernier_Sous_Job') . '.log');}
+        if ($input->getArgument('code_job_composite') == "0") {$historique->setPath('/var/log/saywow_succes' . date("y-m-d-G-i-s") . '.log');}
+        else {$historique->setPath('/var/log/saywow_succes' . $input->getArgument('code_job_composite') . date("y-m-d-G-i-s") . '--' . $input->getArgument('dernier_Sous_Job') . '.log');}
         $historique->setJobCronHist($jobCron);
         $this->manager->persist($historique);
         $this->manager->flush();
@@ -58,7 +54,7 @@ class StructCommand
         $this->manager->persist($jobCron);
         $this->manager->flush();
     }
-    public function modifierEtatJobCompositeSucces(InputInterface $input,JobComposite $jobComposite){
+    public function modifierEtatJobCompositeSucces(JobComposite $jobComposite){
 
         if ($jobComposite->getState() != "Erreur") {
             $jobComposite->setState("Succès");

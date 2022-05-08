@@ -4,16 +4,52 @@ namespace App\Message;
 
 class LogCommand
 {
+    private $codeCommand;
     private $nameCommand;
-    private $nomJobComposite;
     private $dernierSousJob;
     private $idJobCron;
-    public function __construct(string $nameCommand,string $idJobCron ,string $nomJobComposite,string $dernierSousJob)
+    public function __construct(string $nameCommand,string $idJobCron,string $codeCommand ,string $dernierSousJob)
     {
+        $this->codeCommand = $codeCommand;
         $this->nameCommand = $nameCommand;
-        $this->nomJobComposite = $nomJobComposite;
         $this->dernierSousJob = $dernierSousJob;
         $this->idJobCron = $idJobCron;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameCommand(): string
+    {
+        return $this->nameCommand;
+    }
+
+    /**
+     * @param string $nameCommand
+     * @return LogCommand
+     */
+    public function setNameCommand(string $nameCommand): LogCommand
+    {
+        $this->nameCommand = $nameCommand;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCodeCommand(): string
+    {
+        return $this->codeCommand;
+    }
+
+    /**
+     * @param string $codeCommand
+     * @return LogCommand
+     */
+    public function setCodeCommand(string $codeCommand): LogCommand
+    {
+        $this->codeCommand = $codeCommand;
+        return $this;
     }
 
     /**
@@ -34,23 +70,7 @@ class LogCommand
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNomJobComposite(): string
-    {
-        return $this->nomJobComposite;
-    }
 
-    /**
-     * @param string $nomJobComposite
-     * @return LogCommand
-     */
-    public function setNomJobComposite(string $nomJobComposite): LogCommand
-    {
-        $this->nomJobComposite = $nomJobComposite;
-        return $this;
-    }
 
     /**
      * @return string
@@ -70,13 +90,6 @@ class LogCommand
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNameCommand(): string
-    {
-        return $this->nameCommand;
-    }
 
 
 

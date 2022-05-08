@@ -42,7 +42,7 @@ class saywow extends Command
     public function configure(){
         $this
             ->addArgument('Related_job', InputArgument::OPTIONAL, 'Whitch one this command is related to?')
-            ->addArgument('nom_job_composite',InputArgument::OPTIONAL, 'si la commande est lancée à partir de job composite?')
+            ->addArgument('code_job_composite',InputArgument::OPTIONAL, 'si la commande est lancée à partir de job composite?')
             ->addArgument('dernier_Sous_Job',InputArgument::OPTIONAL,'si c est loe dernier sous job ?')
         ;
     }
@@ -64,12 +64,14 @@ class saywow extends Command
                 $output->writeln("wow wow");
                 $log = "command name: app:saywow  state: success  execution date" . ' - ' . date("F j, Y, G:i") . PHP_EOL .
                     "-------------------------" . PHP_EOL;
-                if ($input->getArgument('nom_job_composite') == "0") {
+                if ($input->getArgument('code_job_composite') == "0") {
                     file_put_contents($this->kernel->getProjectDir() . '/var/log/saywow_succes' . date("y-m-d-G-i-s") . '.log', $log, FILE_APPEND);
                 } else {
-                    file_put_contents($this->kernel->getProjectDir() . '/var/log/saywow_succes_' . $input->getArgument('nom_job_composite') . date("y-m-d-G-i-s") . '.log', $log, FILE_APPEND);
+                    file_put_contents($this->kernel->getProjectDir() . '/var/log/saywow_succes_' . $input->getArgument('code_job_composite') . date("y-m-d-G-i-s") . '.log', $log, FILE_APPEND);
+                    //file_put_contents($this->kernel->getProjectDir() .  $input->getArgument('code_job_composite')  . '.log', $log, FILE_APPEND);
+                      }
 
-                }
+
                 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 //%%%%%%%%%% ici se termine le traitement
                 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,8 +84,8 @@ class saywow extends Command
 
                 if ($input->getArgument('dernier_Sous_Job') == "1") {
                     $jobCompositeRepo = new JobCompositeRepository($this->managerRegistry);
-                    $jobComposite = $jobCompositeRepo->findByName($input->getArgument('nom_job_composite'));
-                    $structCommand->modifierEtatJobCompositeSucces($input,$jobComposite);
+                    $jobComposite = $jobCompositeRepo->findByCode(strval($input->getArgument('code_job_composite')));
+                    $structCommand->modifierEtatJobCompositeSucces($jobComposite);
 
                 }
             }
@@ -98,12 +100,12 @@ class saywow extends Command
             file_put_contents($this->kernel->getProjectDir() . '/var/log/saywow_error' . date("y-m-d-G-i-s") . '.log', $log, FILE_APPEND);
             //une partie d'ajout d'historique dans le cas d'erreur
             $structCommand->ajoutHistoriqueError($input,$jobCron);
-            if($input->getArgument('nom_job_composite')=="0") {
+            if($input->getArgument('code_job_composite')=="0") {
                 $structCommand->EnvoyerEmailErrorCron($jobCron);
             }
-            if($input->getArgument('nom_job_composite')!="0") {
+            if($input->getArgument('code_job_composite')!="0") {
                 $jobCompositeRepo = new JobCompositeRepository($this->managerRegistry);
-                $jobComposite = $jobCompositeRepo->findByName($input->getArgument('nom_job_composite'));
+                $jobComposite = $jobCompositeRepo->findByCode($input->getArgument('code_job_composite'));
                 $structCommand->EnvoyerEmailErrorComposite($jobComposite,$jobCron);
                 $structCommand->modifierEtatJobCompositeError($input,$jobComposite);
             }

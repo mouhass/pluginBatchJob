@@ -43,9 +43,9 @@ class JobCompositeRepository extends ServiceEntityRepository
     }
 
 
-    public function findByName(string $name){
+    public function findByCode(string $name){
         return $this->createQueryBuilder('a')
-            ->andWhere('a.name = :val')
+            ->andWhere('a.numerocomposite = :val')
             ->setParameter('val', $name)
             ->getQuery()
             ->getOneOrNullResult();

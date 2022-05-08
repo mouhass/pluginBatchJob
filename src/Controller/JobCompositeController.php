@@ -156,11 +156,11 @@ class JobCompositeController extends AbstractController
         for($x=0;$x<=count($myList)-1;$x++){
             if($myList[$x]->actif ) {
                 if($x!=count($myList)-1){
-                $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getName(),"0");
+                $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getNumerocomposite(),"0");
                 $this->bus->dispatch($message);}
 
             if($x==count($myList)-1){
-            $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getName(),"1");
+            $message = new LogCommand($myList[$x]->getScriptExec(),$myList[$x]->getId(),$jobComposite->getNumerocomposite(),"1");
             $this->bus->dispatch($message);
                 }
             $myList[$x]->setState("en cours");$this->manager->persist($myList[$x]);$this->manager->flush();
