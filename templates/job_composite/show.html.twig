@@ -82,6 +82,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
+        {% if app.user.roles == ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'] %}
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
@@ -96,7 +97,7 @@
                 </div>
             </div>
         </li>
-
+     {% endif %}
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item active">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -254,47 +255,86 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Administrateurs</h1>
                 </div>
 
                 <!-- Content Row -->
-                <div class="row">
+                <div>
 
                     <!-- Earnings (Monthly) Card Example -->
 
 
                     <!-- Earnings (Monthly) Card Example -->
-                    <div class="row" style="margin: auto;width: 50%;padding: 10px; ">
-                        <div class="well">
+                    <div class="row" style="margin: auto;width: 100%;padding: 10px; ">
+                        <div class="col" >
+                            <legend><i  aria-hidden="true"></i> Le code du job composite</legend>
+                            <h1 class="h3 mb-0 text-gray-800">{{ job_composite.codecomposite}}</h1>
+                                <br><br>
                             <legend><i  aria-hidden="true"></i> Description du job composite</legend>
                             <div class="card"><div class="card-body">{{ job_composite.name }}</div></div>
-                            <br><br>
+                            <br>
                             <legend><i  aria-hidden="true"></i> L'expression</legend>
                             <div class="card"><div class="card-body">{{ job_composite.expression }}</div></div>
-                            <br><br>
-                            <legend><i  aria-hidden="true"></i> Actions </legend>
-                            <a href="{{ path('app_JobComposite_execute', {'id':job_composite.id}) }}" class="btn btn-success">Exécuter immédiatement</a>
-                            <a href="{{ path('app_job_composite_edit',{'id':job_composite.id}) }}" class="btn btn-warning">Modifier</a>
-                            <a href="{{ path('app_job_composite_delete', {'id':job_composite.id}) }}" class="btn btn-danger">Supprimer</a>
                             <br><br>
                             <legend><i aria-hidden="true"></i>Les sous jobs</legend>
                             <table class="table">
                                 <thead>
                                 <th>Les sous jobs</th>
+                                <th>Code du sous job</th>
                                 <th>Télécharger log</th>
+
                                 </thead>
                                 <tbody>
                                 {% for job_comp in job_composite.listSousJobs %}
                                     <tr>
                                         <td>{{ job_comp }}</td>
-                                        <td><a href="{{ path('app_JobCron_downloadFiles',{'id':job_comp.id}) }}" class="btn btn-warning">Log</a></td>
+                                        <th>{{ job_comp.code }}</th>
+                                        <div class="container">
+                                            {% set i = 0 %}
+                                            {% for elt in job_comp.historiques %}
+                                                {% set i = i+1 %}
+
+
+                                                <td class=" row">
+                                                    <div class="col">
+                                                        {% if elt.state == "Succès"  %}
+                                                        <a href="{{ path('app_JobCron_downloadFiles',{'id':job_comp.id}) }}" class="btn btn-success"  >{{ elt.createdAt.format('Y-m-d-H-i-s') }}</a>
+
+
+
+
+                                                        {% else %}
+
+                                                        <div class="col">
+                                                            <a href="{{ path('app_JobCron_downloadFiles',{'id':job_comp.id}) }}" class="btn btn-danger"  >{{ elt.createdAt.format('Y-m-d-H-i-s') }}</a>
+
+
+
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
+
+                                        </div>
+
                                     </tr>
 
                                 {% endfor %}
                                 </tbody>
 
                             </table>
-                        </div></div>
+                        </div>
+                        <div class=" col " style="text-align: right ">
+
+                            <a href="{{ path('app_JobComposite_execute', {'id':job_composite.id}) }}" class="btn btn-success">Exécuter immédiatement</a>
+                            <a href="{{ path('app_job_composite_edit',{'id':job_composite.id}) }}" class="btn btn-warning">Modifier</a>
+                            <a href="{{ path('app_job_composite_delete', {'id':job_composite.id}) }}" class="btn btn-danger">Supprimer</a>
+                            <br><br>
+                            <a href="{{ path('app_job_composite_index') }}" class="btn btn-info" style="width: 50%">Retour</a>
+
+                        </div>
+
+                    </div>
 
 
                     <!-- Earnings (Monthly) Card Example -->

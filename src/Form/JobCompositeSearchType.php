@@ -15,12 +15,11 @@ class JobCompositeSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numerocomposite',TextType::class,['required'=>false,
-                'label'=>false, 'attr'=>['placeholder'=>'Le numero']])
+            ->add('codecomposite',TextType::class,['required'=>false,
+                'label'=>false, 'attr'=>['placeholder'=>'Le code']])
             ->add('expression', TextType::class,['required'=>false,
                 'label'=>false, 'attr'=>['placeholder'=>'La fréquence ']])
-            ->add('nameSousJob',TextType::class,['required'=>false,
-                'label'=>false, 'attr'=>['placeholder'=>'Le nom du sous job']])
+
             ->add('submit',SubmitType::class,['label'=>'Rechercher'] )
         ;    }
     public function configureOptions(OptionsResolver $resolver)

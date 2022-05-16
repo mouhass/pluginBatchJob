@@ -4,20 +4,19 @@ namespace App\Controller;
 
 use App\Entity\JobComposite;
 use App\Entity\JobCompositeSearch;
-use App\Entity\JobCron;
+
 use App\Form\CreateNewJobCompositeType;
 use App\Form\EditJobCompositeType;
 use App\Form\JobCompositeSearchType;
-use App\Form\JobCompositeType;
+
 use App\Message\LogCommand;
 use App\Repository\JobCompositeRepository;
-use Doctrine\ORM\EntityManager;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -46,7 +45,7 @@ class JobCompositeController extends AbstractController
         $form = $this->createForm(JobCompositeSearchType::class,$search);
         $form->handleRequest($request);
 
-        $jobComposite = $paginator->paginate($jobCompositeRepository->findSpecific($search), $request->query->getInt('page',1),2);
+        $jobComposite = $paginator->paginate($jobCompositeRepository->findSpecific($search), $request->query->getInt('page',1),4);
         return $this->render('job_composite/index.html.twig', [
             'job_composites' => $jobComposite,
             'form'=>$form->createView()
@@ -64,7 +63,7 @@ class JobCompositeController extends AbstractController
 
         $jobComposite->setActif(1);
         $jobComposite->setState("NOUVEAU");
-        $jobComposite->setNumerocomposite(rand(1000,9999));
+        $jobComposite->setCodecomposite(uniqid());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($jobComposite);
@@ -204,6 +203,5 @@ class JobCompositeController extends AbstractController
         }
         return $this->redirectToRoute('app_job_composite_index', [], Response::HTTP_SEE_OTHER);
     }
-
 
 }

@@ -6,14 +6,14 @@
 
         <div class="well">
             {{ form_start(form) }}
-            <legend><i class="fa fa-lock" aria-hidden="true"></i> Nom de l'administrateur</legend>
-                <div class="card"><div class="card-body">{{ form_widget(form.name) }}</div></div>
+            <legend><i aria-hidden="true"></i> Nom de l'administrateur</legend>
+                <div >{{ form_widget(form.name) }}</div>
             <br><br>
-            <legend><i class="fa fa-lock" aria-hidden="true"></i> Mot de passe</legend>
-            <div class="card"><div class="card-body">{{ form_widget(form.password) }}</div></div>
+            <legend><i  aria-hidden="true"></i> Mot de passe</legend>
+            <div>{{ form_widget(form.password) }}</div>
             <br><br>
-            <legend><i class="fa fa-lock" aria-hidden="true"></i> Email </legend>
-            <div class="card"><div class="card-body">{{ form_widget(form.email) }}</div></div>
+            <legend><i  aria-hidden="true"></i> Email </legend>
+            <div >{{ form_widget(form.email) }}</div>
            <br><br>
             <button class="btn btn-success">{{ button_label|default('Save') }}</button>
             <a class="btn btn-warning" href="{{ path('app_admin_index') }}">Retour</a>

@@ -6,9 +6,12 @@ security:
     in_memory:
       memory:
         users:
-          demo:
-            password: demo
-            roles: ROLE_ADMIN
+          Michael:
+            password: superadmin
+            roles: ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']
+          John:
+            password: admin
+            roles: ['ROLE_ADMIN']
 #  encoders:
 #    App\Entity\Admin:
 #      algorithm: bcrypt
@@ -17,7 +20,8 @@ security:
 #      from_database:
 #        entity:
 #          class: App\Entity\Admin
-#          property: username
+#          property: name
+
 
   firewalls:
     dev:
@@ -29,10 +33,13 @@ security:
         path: /logout
         target: /login
 
+
       http_basic: true
       form_login:
-        check_path: /login
+        check_path: login
 
 
   access_control:
-    - {path: ^/home , roles: ROLE_ADMIN}
+    - {path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+    - {path: ^/ , roles: ROLE_ADMIN}
+

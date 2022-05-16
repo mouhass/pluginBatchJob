@@ -18,7 +18,7 @@ class CreateNewJobCompositeType extends AbstractType
         $builder
 
             ->add('name',TextType::class)
-            ->add('listDestination',EntityType::class,['class'=>Admin::class,'multiple'=>true])
+            ->add('emailadmin',TextType::class)
             ->add('expression',TextType::class)
             ->add('listSousJobs',EntityType::class,['class'=>JobCron::class,'multiple'=>true ])
             ->add('createdBy',EntityType::class,['class'=>Admin::class])

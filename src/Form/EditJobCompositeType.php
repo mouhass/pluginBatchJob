@@ -16,11 +16,11 @@ class EditJobCompositeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('numerocomposite',TextType::class)
+            ->add('codecomposite',TextType::class)
             ->add('name',TextType::class)
             ->add('state',TextType::class)
             ->add('actif',TextType::class)
-            ->add('listDestination',EntityType::class,['class'=>Admin::class,'multiple'=>true])
+            ->add('emailadmin',TextType::class)
             ->add('expression',TextType::class)
             ->add('listSousJobs',EntityType::class,['class'=>JobCron::class,'multiple'=>true ])
 

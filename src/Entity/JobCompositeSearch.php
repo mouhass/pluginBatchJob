@@ -5,8 +5,8 @@ namespace App\Entity;
 class JobCompositeSearch
 {
 
-    private $numerocomposite;
-    private $nameSousJob;
+    protected $codecomposite;
+    protected $nameSousJob;
 
     /**
      * @return mixed
@@ -30,15 +30,15 @@ class JobCompositeSearch
     /**
      * @return mixed
      */
-    public function getNumerocomposite()
+    public function getCodecomposite()
     {
-        return $this->numerocomposite;
+        return $this->codecomposite;
     }
 
 
-    public function setNumerocomposite($numerocomposite)
+    public function setCodecomposite($codecomposite)
     {
-        $this->numerocomposite = $numerocomposite;
+        $this->codecomposite = $codecomposite;
         return $this;
     }
 

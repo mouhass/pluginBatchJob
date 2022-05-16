@@ -155,6 +155,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
+        {% if app.user.roles == ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'] %}
         <li class="nav-item ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
@@ -169,6 +170,7 @@
                 </div>
             </div>
         </li>
+        {% endif %}
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item active">
@@ -325,7 +327,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Administrateurs</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Tous les jobs cron</h1>
                 </div>
 
                 <!-- Content Row -->
@@ -349,7 +351,21 @@
 
 
                     <!-- Earnings (Monthly) Card Example -->
+                    <div  style="width: 100%">
+                        <div class="container">
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-md-4">{{ form_row(form.code) }}</div>
+                                <div class="col-md-4">{{ form_row(form.command) }}</div>
 
+                                <div class="col-md-4" >{{ form_row(form.submit) }}</div>
+                            </div>
+                            {{ form_end(form) }}
+                            <br>
+
+                        </div>
+                    </div>
+                    <br><br><br><br>
                     <div class="navigation">
                                 {{ knp_pagination_render(jobCron) }}
                             </div>
@@ -369,21 +385,33 @@
                                 <tbody>
                                 {% for j in jobCron %}
                                     <tr>
-                                        <td><a href="{{ path('app_JobCron_show', {'id':j.id}) }}">{{ j.numero }}</a></td>
+                                        <td><a href="{{ path('app_JobCron_show', {'id':j.id}) }}">{{ j.code }}</a></td>
 
                                         <td>{{ j.expression }}</td>
 
                                         <td> {% if(j.actif == 1) %}
-                                                <a class="btn btn-warning" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}" >
-                                                    Activé
+                                                <a class="btn btn-success" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}" >
+                                                   Activé
 
                                                 </a>
                                             {% else %}
-                                                <a class="btn btn-danger" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}">Désactivé</a>
+                                                <a class="btn btn-warning" href="{{ path("app_JobCron_actifdesactif", {'id':j.id}) }}">Désactivé</a>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {{ j.state }}
+
+                                            {% if j.state == "Succès" %}
+                                            <a class="btn btn-success">Succès</a>
+                                                {% elseif j.state == "erreur" %}
+                                                <a class="btn btn-danger">Erreur</a>
+                                                    {% elseif j.state == "NOUVEAU" %}
+                                                <a class="btn btn-info">Nouveau</a>
+                                                        {% else %}
+                                                <a class="btn btn-info">En cours</a>
+                                            {% endif %}
+
+
+
                                         </td>
 
 

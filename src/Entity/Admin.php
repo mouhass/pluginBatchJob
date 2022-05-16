@@ -36,15 +36,7 @@ class Admin implements UserInterface,\Serializable
      */
     private $email;
 
-    /**
-     * @ORM\OneToMany(targetEntity=JobCron::class, mappedBy="createdBy", orphanRemoval=true, cascade={"persist"})
-     */
-    private $jobCrons;
 
-    /**
-     * @ORM\OneToMany(targetEntity=JobComposite::class, mappedBy="createdBy", orphanRemoval=true, cascade={"persist"})
-     */
-    private $jobComposites;
 
     /**
      * @ORM\ManyToMany(targetEntity=JobComposite::class, mappedBy="listDestination")
@@ -80,12 +72,11 @@ public function __toString()
         return $this->name;
     }
 
-    public function setUsername(string $name): self
-    {
+    public function setName(string $name){
         $this->name = $name;
-
-        return $this;
     }
+
+
 
     public function getPassword(): ?string
     {
@@ -114,62 +105,11 @@ public function __toString()
     /**
      * @return Collection<int, JobCron>
      */
-    public function getJobCrons(): Collection
-    {
-        return $this->jobCrons;
-    }
 
-    public function addJobCron(JobCron $jobCron): self
-    {
-        if (!$this->jobCrons->contains($jobCron)) {
-            $this->jobCrons[] = $jobCron;
-            $jobCron->setCreatedBy($this);
-        }
 
-        return $this;
-    }
 
-    public function removeJobCron(JobCron $jobCron): self
-    {
-        if ($this->jobCrons->removeElement($jobCron)) {
-            // set the owning side to null (unless already changed)
-            if ($jobCron->getCreatedBy() === $this) {
-                $jobCron->setCreatedBy(null);
-            }
-        }
 
-        return $this;
-    }
 
-    /**
-     * @return Collection<int, JobComposite>
-     */
-    public function getJobComposites(): Collection
-    {
-        return $this->jobComposites;
-    }
-
-    public function addJobComposite(JobComposite $jobComposite): self
-    {
-        if (!$this->jobComposites->contains($jobComposite)) {
-            $this->jobComposites[] = $jobComposite;
-            $jobComposite->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeJobComposite(JobComposite $jobComposite): self
-    {
-        if ($this->jobComposites->removeElement($jobComposite)) {
-            // set the owning side to null (unless already changed)
-            if ($jobComposite->getCreatedBy() === $this) {
-                $jobComposite->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, JobComposite>

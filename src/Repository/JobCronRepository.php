@@ -80,18 +80,18 @@ class JobCronRepository extends ServiceEntityRepository
 
     public function findSpecific(JobCronSearch $search):Query{
          $query = $this->findVisibleQuery();
-         if($search->getNumero() and $search->getNumero()!=""){
-                $query = $query->where('p.numero = :numero')
-                    ->setParameter('numero',$search->getNumero());
+         if($search->getCode() and $search->getCode()!=""){
+                $query = $query->where('p.code = :code')
+                    ->setParameter('code',$search->getCode());
          }
          if($search->getCommand() and $search->getCommand()!=""){
              $query = $query->where('p.scriptExec = :command')
                  ->setParameter('command',$search->getCommand());
          }
-         if($search->getNumero()!="" and $search->getCommand()!=""){
-             $query = $query->where('p.numero = :numero and p.scriptExec = :command ')
+         if($search->getCode()!="" and $search->getCommand()!=""){
+             $query = $query->where('p.code = :code and p.scriptExec = :command ')
 
-                 ->setParameter('numero',$search->getNumero())
+                 ->setParameter('code',$search->getCode())
                  ->setParameter('command',$search->getCommand());
          }
          return  $query->getQuery();
@@ -106,56 +106,6 @@ class JobCronRepository extends ServiceEntityRepository
 
 
 
-    public function parse_crontab($time, $crontab) {
-        // Get current minute, hour, day, month, weekday
-        $time = explode(' ', date('i G j n w', strtotime($time)));
-        // Split crontab by space
-        $crontab = explode(' ', $crontab);
-        // Foreach part of crontab
-        foreach ($crontab as $k => &$v) {
-            // Remove leading zeros to prevent octal comparison, but not if number is already 1 digit
-            $time[$k] = preg_replace('/^0+(?=\d)/', '', $time[$k]);
-            // 5,10,15 each treated as seperate parts
-            $v = explode(',', $v);
-            // Foreach part we now have
-            foreach ($v as &$v1) {
-                // Do preg_replace with regular expression to create evaluations from crontab
-                $v1 = preg_replace(
-                // Regex
-                    array(
-                        // *
-                        '/^\*$/',
-                        // 5
-                        '/^\d+$/',
-                        // 5-10
-                        '/^(\d+)\-(\d+)$/',
-                        // */5
-                        '/^\*\/(\d+)$/'
-                    ),
-                    // Evaluations
-                    // trim leading 0 to prevent octal comparison
-                    array(
-                        // * is always true
-                        'true',
-                        // Check if it is currently that time,
-                        $time[$k] . '===\0',
-                        // Find if more than or equal lowest and lower or equal than highest
-                        '(\1<=' . $time[$k] . ' and ' . $time[$k] . '<=\2)',
-                        // Use modulus to find if true
-                        $time[$k] . '%\1===0'
-                    ),
-                    // Subject we are working with
-                    $v1
-                );
-            }
-            // Join 5,10,15 with `or` conditional
-            $v = '(' . implode(' or ', $v) . ')';
-        }
-        // Require each part is true with `and` conditional
-        $crontab = implode(' and ', $crontab);
-        // Evaluate total condition to find if true
-        return eval('return ' . $crontab . ';');
-    }
 
     public function getNextDate(){
         $cron = new CronExpression('0 0 * * *');
@@ -167,6 +117,24 @@ class JobCronRepository extends ServiceEntityRepository
     public function giveDateTime()
     {
         return date("i G d m y");
+    }
+
+    public function calculateJobCronErr(){
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.state = :val')
+            ->setParameter('val', "erreur")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function calculateJobCronEnCours(){
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.state = :val')
+            ->setParameter('val', "en cours")
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 

@@ -48,7 +48,7 @@ class saywow extends Command
     }
     protected function execute(InputInterface $input, OutputInterface $output): int
     {   //******
-        $structCommand = new StructCommand($this->manager,$this->managerRegistry,$this->repository,$this->mailer);
+        $structCommand = new StructCommand($this->manager,$this->managerRegistry,$this->repository,$this->mailer,$this->kernel);
         //************
         try {
                 //********
@@ -60,7 +60,7 @@ class saywow extends Command
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 sleep(5);
                 // $output->writeln("wow wow");
-                //$myfile = fopen("webdictionary.txt", "r");
+                $myfile = fopen("webdictionary.txt", "r");
                 $output->writeln("wow wow");
                 $log = "command name: app:saywow  state: success  execution date" . ' - ' . date("F j, Y, G:i") . PHP_EOL .
                     "-------------------------" . PHP_EOL;
@@ -80,6 +80,10 @@ class saywow extends Command
                 //une partie de création d'historique
               $structCommand->ajoutHistoriqueSucces($input,$jobCron);
                 //une partie de changement d'état
+                $jobCron->setState('Succès');
+                $this->manager->persist($jobCron);
+                $this->manager->flush();
+
               $structCommand->modifierEtatJobCronSucces($jobCron);
 
                 if ($input->getArgument('dernier_Sous_Job') == "1") {
@@ -99,7 +103,7 @@ class saywow extends Command
                 "-------------------------" . PHP_EOL;
             file_put_contents($this->kernel->getProjectDir() . '/var/log/saywow_error' . date("y-m-d-G-i-s") . '.log', $log, FILE_APPEND);
             //une partie d'ajout d'historique dans le cas d'erreur
-            $structCommand->ajoutHistoriqueError($input,$jobCron);
+            $structCommand->ajoutHistoriqueError($input,$jobCron,'saywow');
             if($input->getArgument('code_job_composite')=="0") {
                 $structCommand->EnvoyerEmailErrorCron($jobCron);
             }

@@ -5,7 +5,6 @@ use App\Entity\JobCronSearch;
 use App\Form\CreateNewJobCronType;
 use App\Form\EditJobCronType;
 use App\Form\JobCronSearchType;
-use App\Form\JobCronType;
 use App\Message\LogCommand;
 use App\Repository\HistoriqueRepository;
 use App\Repository\JobCronRepository;
@@ -18,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * @Route("/admin/job/cron")
  */
@@ -26,11 +28,13 @@ class JobCronController extends AbstractController
     private $jobCronRepo;
     private $manager;
     private $bus;
-    public function __construct(JobCronRepository $jobCronRepo,EntityManagerInterface $manager,MessageBusInterface  $bus)
+    private $security;
+    public function __construct(JobCronRepository $jobCronRepo,EntityManagerInterface $manager,MessageBusInterface  $bus,Security $security)
     {
         $this->jobCronRepo = $jobCronRepo;
         $this->manager = $manager;
         $this->bus = $bus;
+        $this->security = $security;
     }
 
 
@@ -55,7 +59,7 @@ class JobCronController extends AbstractController
     /**
      * @Route("/new", name="app_jobCron_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, JobCronRepository $jobCronRepository): Response
+    public function new(Request $request, JobCronRepository $jobCronRepository,UserInterface $user): Response
     {
         $jobCron = new JobCron();
         $form = $this->createForm(CreateNewJobCronType::class, $jobCron);
@@ -63,7 +67,12 @@ class JobCronController extends AbstractController
 
         $jobCron->setState("NOUVEAU");
         $jobCron->setActif(1);
-        $jobCron->setNumero(rand(1000,9999));
+        $jobCron->setCode(uniqid());
+
+       // $user = $this->getUser()->getUsername();
+
+        $jobCron->setEmailadmincron($user->getUsername());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $jobCronRepository->add($jobCron);
 
@@ -161,25 +170,21 @@ class JobCronController extends AbstractController
 //            $this->manager->flush();
 //
 //        }
-
+        //envoyer la demande de lancement du job au RabbitMq
         $message = new LogCommand($jobCron->getScriptExec(),$jobCron->getId(),"0","0");
         $this->bus->dispatch($message);
+        //changement de l'état du job en lui affectant la valeur "en cours"
         $jobCron->setState("en cours");
+        //persistance des changements dans la base de données
         $this->manager->persist($jobCron);
         $this->manager->flush();
+        //création d'un instance historique relative au lancement immédiat du job
+
         return $this->redirectToRoute('app_jobCron_index', [], Response::HTTP_SEE_OTHER);
 
     }
 
-    /**
-     * @Route("/jareb/jareb" ,name="jareb_jareb" , methods={"GET"})
-     */
-    public function getComposite(JobCronRepository $repository)
-    {
-        $jobCron = $repository->findElementById(8);
-        dd($jobCron);
 
-    }
 
     /**
      * @Route("/{id}/downloadFile", name="app_JobCron_downloadFiles" ,methods={"GET"})

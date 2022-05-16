@@ -18,11 +18,6 @@ class JobCron extends Job
      */
      private $scriptExec;
 
-     /**
-      * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="jobCrons")
-      * @ORM\JoinColumn(nullable=false)
-      */
-     private $createdBy;
 
      /**
       * @ORM\OneToMany(targetEntity=Historique::class, mappedBy="jobCronHist")
@@ -64,6 +59,16 @@ class JobCron extends Job
      * @ORM\Column(type="integer",unique=true)
      */
     private $numero;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emailadmincron;
 
     /**
      * @return mixed
@@ -117,17 +122,6 @@ class JobCron extends Job
 
 
 
-     public function getCreatedBy(): ?Admin
-     {
-         return $this->createdBy;
-     }
-
-     public function setCreatedBy(?Admin $createdBy): self
-     {
-         $this->createdBy = $createdBy;
-
-         return $this;
-     }
 
      /**
       * @return Collection<int, Historique>
@@ -279,6 +273,30 @@ class JobCron extends Job
     public function setNumero(int $numero): self
     {
         $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getEmailadmincron(): ?string
+    {
+        return $this->emailadmincron;
+    }
+
+    public function setEmailadmincron(string $emailadmincron): self
+    {
+        $this->emailadmincron = $emailadmincron;
 
         return $this;
     }

@@ -19,11 +19,7 @@ class JobComposite extends Job
      */
     private $historiqueSousJob;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="jobComposites", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $createdBy;
+
 
 
 
@@ -77,6 +73,16 @@ class JobComposite extends Job
     private $numerocomposite;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $codecomposite;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emailadmin;
+
+    /**
      * @return mixed
      */
     public function getActif()
@@ -127,17 +133,7 @@ class JobComposite extends Job
         return $this;
     }
 
-    public function getCreatedBy(): ?Admin
-    {
-        return $this->createdBy;
-    }
 
-    public function setCreatedBy(?Admin $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, JobCron>
@@ -218,6 +214,30 @@ class JobComposite extends Job
     public function setNumerocomposite(int $numerocomposite): self
     {
         $this->numerocomposite = $numerocomposite;
+
+        return $this;
+    }
+
+    public function getCodecomposite(): ?string
+    {
+        return $this->codecomposite;
+    }
+
+    public function setCodecomposite(string $codecomposite): self
+    {
+        $this->codecomposite = $codecomposite;
+
+        return $this;
+    }
+
+    public function getEmailadmin(): ?string
+    {
+        return $this->emailadmin;
+    }
+
+    public function setEmailadmin(string $emailadmin): self
+    {
+        $this->emailadmin = $emailadmin;
 
         return $this;
     }

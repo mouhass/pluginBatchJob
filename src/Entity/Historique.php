@@ -32,6 +32,11 @@ class Historique
      */
     private $jobCronHist;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $state;
+
 
     public function getId(): ?int
     {
@@ -70,6 +75,18 @@ class Historique
     public function setJobCronHist(?JobCron $jobCronHist): self
     {
         $this->jobCronHist = $jobCronHist;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

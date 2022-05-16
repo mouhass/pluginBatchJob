@@ -4,21 +4,21 @@ namespace App\Entity;
 
 class JobCronSearch
 {
-    private $numero;
+    private $code;
     private $command;
 
     /**
      * @return mixed
      */
-    public function getNumero()
+    public function getCode()
     {
-        return $this->numero;
+        return $this->code;
     }
 
 
-    public function setNumero($numero)
+    public function setCode($code)
     {
-        $this->numero = $numero;
+        $this->code = $code;
         return $this;
     }
 

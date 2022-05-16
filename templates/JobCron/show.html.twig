@@ -72,6 +72,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
+        {% if app.user.roles == ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'] %}
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
@@ -86,6 +87,7 @@
                 </div>
             </div>
         </li>
+        {% endif %}
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item active">
@@ -240,76 +242,77 @@
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
-            <div class="container-fluid">
+            <div class="container">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Administrateurs</h1>
-                </div>
+
 
                 <!-- Content Row -->
-                <div class="row">
-
-                    <!-- Earnings (Monthly) Card Example -->
-
-
-                    <!-- Earnings (Monthly) Card Example -->
-{#                    <table class="table" >#}
-{#                        <thead style="background-color:lightgreen">#}
-{#                        <tr style="color:white">#}
-
-{#                            <th>Description</th>#}
-{#                            <th>Expression</th>#}
-{#                            <th>Actions</th>#}
-{#                           <th>Télécharger log</th>#}
-
-{#                        </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-
-{#                            <tr>#}
-{#                                <td>{{ JobCron.name }}</td>#}
-
-{#                                <td>{{ JobCron.expression }}</td>#}
-
-{#                                <td>#}
-{#                                                        {% if(JobCron.actif) %}#}
-{#                                                        <a href="{{ path('app_JobCron_execute',{'id': JobCron.id}) }}" class="btn btn-success">Execution immédiate</a>#}
-{#                                                        {% endif %}#}
-{#                                                        <a href="{{ path('app_JobCron_edit', {'id': JobCron.id}) }}" class="btn btn-secondary">Modifier</a>#}
-{#                                                        <a href="{{ path('app_JobCron_delete', {'id': JobCron.id}) }}" class="btn btn-danger">Supprimer</a>#}
-{#                                                        <a href="{{ path('app_JobCron_nextdate',{'id':JobCron.id}) }}">nextdate</a>#}
-{#                                                    </td>#}
-{#                                                    <td>#}
-{#                                                        <a href="{{ path('app_JobCron_downloadFiles', {'id':JobCron.id}) }}" class="btn btn-warning">Télécharger</a>#}
-{#                                                    </td>#}
-
-
-{#                            </tr>#}
-
-
-{#                        </tbody>#}
-{#                    </table>#}
+                <div  >
 
 
 
-                    <div class="row" style="margin: auto;width: 50%;padding: 10px; ">
-                        <div class="well">
-                            <legend><i  aria-hidden="true"></i> Description du job cron</legend>
+                    <div class="row" style="margin: auto;width: 100%;padding: 10px; ">
+                        <div class="col " style="width: 80%">
+                            <legend><i  aria-hidden="true"></i> Le code du job cron</legend>
+                            <h1 class="h3 mb-0 text-gray-800" >{{ JobCron.code }}</h1>
+                            <br><br>
+                            <legend><i  aria-hidden="true"></i> La description</legend>
                             <div class="card"><div class="card-body">{{ JobCron.name }}</div></div>
                             <br><br>
-                            <legend><i  aria-hidden="true"></i> L'expression</legend>
+                            <legend><i  aria-hidden="true"></i> La fréquence d'exécution </legend>
                             <div class="card"><div class="card-body">{{ JobCron.expression }}</div></div>
                             <br><br>
-                            <legend><i  aria-hidden="true"></i> Actions </legend>
-                            <a href="{{ path('app_JobCron_execute', {'id':JobCron.id}) }}" class="btn btn-success">Exécuter immédiatement</a>
-                            <a href="{{ path('app_JobCron_edit',{'id':JobCron.id}) }}" class="btn btn-warning">Modifier</a>
-                            <a href="{{ path('app_JobCron_delete', {'id':JobCron.id}) }}" class="btn btn-danger">Supprimer</a>
+                            <legend><i  aria-hidden="true"></i> La commande à exécuter </legend>
+                            <div class="card"><div class="card-body">{{ JobCron.scriptExec }}</div></div>
                             <br><br>
-                            <legend><i  aria-hidden="true"></i> Télécharger log </legend>
-                            <a href="{{ path('app_JobCron_downloadFiles',{'id':JobCron.id}) }}" class="btn btn-warning">Log</a>
+{#                            <a href="{{ path('app_JobCron_downloadFiles',{'id':JobCron.id}) }}" class="btn btn-success">Log</a>#}
+                            <table class="table">
+                                <thead>
 
-                        </div></div>
+
+                                <th>Télécharger log</th>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+
+                                        <div class="container">
+                                            {% set i = 0 %}
+                                            {% for elt in JobCron.historiques %}
+                                                {% set i = i+1 %}
+                                                <td class=" row">
+                                                    <div class="col">
+                                                        {% if elt.state == "Succès"  %}
+                                                        <a href="{{ path('app_JobCron_downloadFiles',{'id':JobCron.id}) }}" class="btn btn-success"  >{{ elt.createdAt.format('Y-m-d-H-i-s') }}</a>
+                                                        {% else %}
+                                                        <div class="col">
+                                                            <a href="{{ path('app_JobCron_downloadFiles',{'id':JobCron.id}) }}" class="btn btn-danger"  >{{ elt.createdAt.format('Y-m-d-H-i-s') }}</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
+                                        </div>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+
+
+
+
+                        </div>
+                        <div class=" col " style="text-align: right" >
+                                <a  href="{{ path('app_JobCron_execute', {'id':JobCron.id}) }}" class="btn btn-success">Exécuter immédiatement</a>
+                                <a href="{{ path('app_JobCron_edit',{'id':JobCron.id}) }}" class="btn btn-warning">Modifier</a>
+                                <a href="{{ path('app_JobCron_delete', {'id':JobCron.id}) }}" class="btn btn-danger">Supprimer</a>
+                            <br><br>
+                            <a href="{{ path('app_jobCron_index') }}" class="btn btn-info" style="width: 50%">Retour</a>
+                        </div>
+                    </div>
 
 
                     <!-- Earnings (Monthly) Card Example -->

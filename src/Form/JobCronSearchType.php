@@ -15,8 +15,8 @@ class JobCronSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numero',TextType::class,['required'=>false,
-                'label'=>false, 'attr'=>['placeholder'=>'Le numero']])
+            ->add('code',TextType::class,['required'=>false,
+                'label'=>false, 'attr'=>['placeholder'=>'Le code']])
             ->add('command', TextType::class,['required'=>false,
                 'label'=>false, 'attr'=>['placeholder'=>'La commande exécutée ']])
             ->add('submit',SubmitType::class,['label'=>'Rechercher'] )

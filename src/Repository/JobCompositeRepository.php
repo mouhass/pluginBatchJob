@@ -57,9 +57,9 @@ class JobCompositeRepository extends ServiceEntityRepository
     public function findSpecific(JobCompositeSearch $search):Query
     {
         $query = $this->findVisibleQuery();
-        if ($search->getNumerocomposite() and $search->getNumerocomposite() != "") {
-            $query = $query->where('a.numerocomposite = :numerocomposite')
-                ->setParameter('numerocomposite', $search->getNumerocomposite());
+        if ($search->getCodecomposite() and $search->getCodecomposite() != "") {
+            $query = $query->where('a.codecomposite = :codecomposite')
+                ->setParameter('codecomposite', $search->getCodecomposite());
         }
 //        if($search->getName() and $search->getName()!=""and $search->getNameSousJob() and $search->getNameSousJob()!="")
 //        {
@@ -75,13 +75,33 @@ class JobCompositeRepository extends ServiceEntityRepository
             $query = $query->where('a.expression = :expression')
                 ->setParameter('expression', $search->getExpression());
         }
-        if($search->getNumerocomposite()!="" and $search->getExpression()!=""){
-            $query = $query->where('a.expression = :expression and a.numerocomposite = :numerocomposite')
+        if($search->getCodecomposite()!="" and $search->getExpression()!=""){
+            $query = $query->where('a.expression = :expression and a.codecomposite = :codecomposite')
 
                 ->setParameter('expression', $search->getExpression())
-                ->setParameter('numerocomposite', $search->getNumerocomposite());
+                ->setParameter('codecomposite', $search->getCodecomposite());
         }
         return $query->getQuery();
 
     }
+
+
+    public function calculateJobCompErr(){
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.state = :val')
+            ->setParameter('val', "erreur")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function calculateJobCompEnCours(){
+        return $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.state = :val')
+            ->setParameter('val', "en cours")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

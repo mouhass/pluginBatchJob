@@ -4,15 +4,44 @@
     <list default="true" id="b198b9e0-5aa8-4b6d-9c1d-4eb42eedfb8f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/CommandePrincipale.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/CommandePrincipale.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Command/StructCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/StructCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/sayTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/sayTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/sayWassap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/sayWassap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/saygoodbye.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/saygoodbye.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Command/saywow.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/saywow.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/HomeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/JobCompositeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JobCompositeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/JobCronController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JobCronController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Message/LogCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Message/LogCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MessageHandler/LogCommandHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/MessageHandler/LogCommandHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Historique.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Historique.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobComposite.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobComposite.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobCompositeSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobCompositeSearch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobCron.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobCron.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JobCronSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JobCronSearch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/CreateNewJobCompositeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreateNewJobCompositeType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/CreateNewJobCronType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreateNewJobCronType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/EditJobCompositeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/EditJobCompositeType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/JobCompositeSearchType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCompositeSearchType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/JobCompositeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCompositeType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/JobCronSearchType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCronSearchType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/JobCronType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JobCronType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/JobCompositeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/JobCompositeRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/JobCronRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/JobCronRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/_formCreate.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/_formCreate.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/_formEdit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/_formEdit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/JobCron/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/JobCron/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/_formCreateComp.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/_formCreateComp.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/_formEditComp.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/_formEditComp.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/job_composite/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/job_composite/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tous.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tous.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,6 +321,13 @@
       <workItem from="1651740776578" duration="15486000" />
       <workItem from="1651825558091" duration="8864000" />
       <workItem from="1652038080081" duration="7209000" />
+      <workItem from="1652051894133" duration="679000" />
+      <workItem from="1652086470586" duration="1818000" />
+      <workItem from="1652311423335" duration="6495000" />
+      <workItem from="1652344541207" duration="17088000" />
+      <workItem from="1652432606907" duration="6366000" />
+      <workItem from="1652440252854" duration="10371000" />
+      <workItem from="1652689982809" duration="13078000" />
     </task>
     <servers />
   </component>
